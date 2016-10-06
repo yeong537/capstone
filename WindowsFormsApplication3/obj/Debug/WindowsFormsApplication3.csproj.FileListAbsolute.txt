@@ -1,2 +1,11 @@
 D:\opencv\project\WindowsFormsApplication3\bin\Debug\WindowsFormsApplication3.exe.config
 D:\github\capstone\WindowsFormsApplication3\bin\Debug\WindowsFormsApplication3.exe.config
+D:\capstone\WindowsFormsApplication3\bin\Debug\WindowsFormsApplication3.exe.config
+D:\capstone\WindowsFormsApplication3\bin\Debug\WindowsFormsApplication3.exe
+D:\capstone\WindowsFormsApplication3\bin\Debug\WindowsFormsApplication3.pdb
+D:\capstone\WindowsFormsApplication3\obj\Debug\WindowsFormsApplication3.csprojResolveAssemblyReference.cache
+D:\capstone\WindowsFormsApplication3\obj\Debug\WindowsFormsApplication3.Form1.resources
+D:\capstone\WindowsFormsApplication3\obj\Debug\WindowsFormsApplication3.Properties.Resources.resources
+D:\capstone\WindowsFormsApplication3\obj\Debug\WindowsFormsApplication3.csproj.GenerateResource.Cache
+D:\capstone\WindowsFormsApplication3\obj\Debug\WindowsFormsApplication3.exe
+D:\capstone\WindowsFormsApplication3\obj\Debug\WindowsFormsApplication3.pdb
