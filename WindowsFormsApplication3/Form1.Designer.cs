@@ -73,7 +73,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(331, 23);
             this.button2.TabIndex = 3;
-            this.button2.Text = "image btn";
+            this.button2.Text = "image";
             this.button2.UseVisualStyleBackColor = true;
             // 
             // pictureBox2
