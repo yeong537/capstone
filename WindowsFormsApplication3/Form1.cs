@@ -8,8 +8,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using OpenCvSharp;
+
+
 namespace WindowsFormsApplication3
 {
+
+    struct image
+    {
+        public Mat img, gray1, gray2, kmeans, grabcut, dilate, erode3, contour2, contour3;
+        VectorOfPoint contours;
+    }
+    
+
     public partial class Form1 : Form
     {
         public Form1()
@@ -20,7 +31,7 @@ namespace WindowsFormsApplication3
         private System.Drawing.Bitmap pic1;
         private string name1;
 
-        private void button2_Click(object sender, EventArgs e)
+        public void button2_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFile = new OpenFileDialog();
             openFile.DefaultExt = "jpg";
@@ -36,6 +47,10 @@ namespace WindowsFormsApplication3
                 pictureBox1.Image = pic1;
 
             }
+
+            image org = new image();
+            org.img = OpenCvSharp.Extensions.BitmapConverter.ToMat(pic1);
+            Cv2.ImShow("original",org.img);
         }
     }
 }
