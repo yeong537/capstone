@@ -1,0 +1,1 @@
+D:\opencv\project\WindowsFormsApplication3\bin\Debug\WindowsFormsApplication3.exe.config
