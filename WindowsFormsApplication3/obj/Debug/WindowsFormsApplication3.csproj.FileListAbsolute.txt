@@ -4,7 +4,6 @@ D:\capstone\WindowsFormsApplication3\bin\Debug\WindowsFormsApplication3.exe.conf
 D:\capstone\WindowsFormsApplication3\bin\Debug\WindowsFormsApplication3.exe
 D:\capstone\WindowsFormsApplication3\bin\Debug\WindowsFormsApplication3.pdb
 D:\capstone\WindowsFormsApplication3\obj\Debug\WindowsFormsApplication3.csprojResolveAssemblyReference.cache
-D:\capstone\WindowsFormsApplication3\obj\Debug\WindowsFormsApplication3.Form1.resources
 D:\capstone\WindowsFormsApplication3\obj\Debug\WindowsFormsApplication3.Properties.Resources.resources
 D:\capstone\WindowsFormsApplication3\obj\Debug\WindowsFormsApplication3.csproj.GenerateResource.Cache
 D:\capstone\WindowsFormsApplication3\obj\Debug\WindowsFormsApplication3.exe
@@ -26,3 +25,5 @@ D:\capstone\WindowsFormsApplication3\bin\Debug\OpenCvSharp.UserInterface.dll
 D:\capstone\WindowsFormsApplication3\bin\Debug\OpenCvSharp.xml
 D:\capstone\WindowsFormsApplication3\bin\Debug\OpenCvSharp.Blob.xml
 D:\capstone\WindowsFormsApplication3\bin\Debug\OpenCvSharp.Extensions.xml
+D:\capstone\WindowsFormsApplication3\bin\Debug\OpenCvSharpExtern.dll
+D:\capstone\WindowsFormsApplication3\obj\Debug\WindowsFormsApplication3.Form1.resources
