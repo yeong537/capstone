@@ -16,7 +16,6 @@ using System.Runtime.InteropServices;
 
 
 
-
 namespace WindowsFormsApplication3
 {
 
@@ -25,6 +24,8 @@ namespace WindowsFormsApplication3
         public Form1()
         {
             InitializeComponent();
+            histogramclass hc = new histogramclass();
+            pictureBox3 = 
         }
 
         private System.Drawing.Bitmap pic1;
@@ -59,6 +60,18 @@ namespace WindowsFormsApplication3
 
         private void button1_Click(object sender, EventArgs e)
         {
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            
+            Bitmap testpic = new Bitmap(openFile.FileName);
+            OpenCvSharp.Extensions.BitmapConverter.ToMat(pic1);
+
+
+
+
+
         }
     }
     
