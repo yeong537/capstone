@@ -9,15 +9,22 @@ namespace WindowsFormsApplication3
 {
     class histogramclass
     {
-        public double get_correl(){
+        //Histograms
+        
+        //private Mat hsv_base;
+        //private Mat hsv_test1;
+        public double get_correl(Mat src_base,Mat src_test1){
            
-            Mat src_base = null;
-            Mat hsv_base = null;
-            Mat src_test1 = null;
-            Mat hsv_test1 = null;
+            //Mat src_base = null;
+            //Mat hsv_base = src_base;
+            //Mat src_test1 = null;
+            //Mat hsv_test1 = src_test1;
 
-            src_base = Cv2.ImRead("1.jpg");
-            src_test1 = Cv2.ImRead("2.jpg");
+            //src_base = Cv2.ImRead("1.jpg");
+            //src_test1 = Cv2.ImRead("2.jpg");
+
+            Mat hsv_base = new Mat();
+            Mat hsv_test1 = new Mat();
 
             Cv2.CvtColor(src_base,hsv_base,ColorConversionCodes.RGB2HSV);
             Cv2.CvtColor(src_test1, hsv_test1, ColorConversionCodes.RGB2HSV);
@@ -33,9 +40,8 @@ namespace WindowsFormsApplication3
 
 	        int[] channels = new int [] { 0, 1 };
 
-            //Histograms
-            Mat hist_base=null;
-	        Mat hist_test1 = null;
+             Mat hist_base = new Mat();
+             Mat hist_test1 = new Mat();
 
             //Calculate the histograms for the HSV images
             Cv2.CalcHist(new Mat[]{hsv_base}, channels, null, hist_base, 2, histSize, range, true, false);
@@ -47,8 +53,7 @@ namespace WindowsFormsApplication3
             double hist_base_correl = Cv2.CompareHist(hist_base, hist_base, OpenCvSharp.HistCompMethods.Correl);
             double hist_base_intersect = Cv2.CompareHist(hist_base, hist_base, OpenCvSharp.HistCompMethods.Intersect);
 
-            return hist_base_correl;
-
+            return hist_base_intersect;
            }
 
       }

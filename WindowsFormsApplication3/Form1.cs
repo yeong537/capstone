@@ -21,16 +21,18 @@ namespace WindowsFormsApplication3
 
     public partial class Form1 : Form
     {
+        public Mat src_base;
+        public Mat src_test;
+
         public Form1()
         {
             InitializeComponent();
-            histogramclass hc = new histogramclass();
-            pictureBox3 = 
+            
         }
 
         private System.Drawing.Bitmap pic1;
         private string name1;
-
+       
         public void button2_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFile = new OpenFileDialog();
@@ -64,14 +66,17 @@ namespace WindowsFormsApplication3
 
         private void button3_Click(object sender, EventArgs e)
         {
+            double correl;
+
+            src_base = Cv2.ImRead("1.jpg");
+            src_test = Cv2.ImRead("2.jpg");
+            Bitmap bt = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(src_base);
+            pictureBox3.Image = bt;
+
+            histogramclass hc = new histogramclass();
+            correl = hc.get_correl(src_base, src_test);
             
-            Bitmap testpic = new Bitmap(openFile.FileName);
-            OpenCvSharp.Extensions.BitmapConverter.ToMat(pic1);
-
-
-
-
-
+            MessageBox.Show(correl.ToString());
         }
     }
     
