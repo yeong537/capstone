@@ -27,8 +27,15 @@ namespace WindowsFormsApplication3
         public Form1()
         {
             InitializeComponent();
-            
+            Image start = new Image();
+            start.img = Cv2.ImRead("start.jpg");
+            for (int i = 0; i < 2; i++)
+            {
+                start.Kmeans(start, "start");
+                start.GrabCut(start, "start");
+            }
         }
+
 
         private System.Drawing.Bitmap pic1;
         private string name1;
@@ -47,7 +54,6 @@ namespace WindowsFormsApplication3
                 name1 = openFile.FileName;
                 
                 pictureBox1.Image = pic1;
-
             }
 
             Image org = new Image();
@@ -57,6 +63,10 @@ namespace WindowsFormsApplication3
             org.GrabCut(org, "org");
             org.Gray_Binary(org, "org");
             org.Erode_Dilate(org, "org");
+            org.Contour(org, "org");
+            org.DeleteBackground(org, "org");
+            Bitmap pic2 = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(org.img);
+            pictureBox2.Image = pic2;
           
         }
 
@@ -125,7 +135,10 @@ namespace WindowsFormsApplication3
 
     struct Image
     {
-        public Mat img, kmeans, grabcut, gray1, gray2, dilate, erode;
+        public Mat img, kmeans, grabcut, gray1, gray2, dilate, erode,contours2;
+        //public List<List<OpenCvSharp.Point>> contours;
+        public OpenCvSharp.Point[][] contours;
+        //public Mat[] contours3;
 
         public void Kmeans(Image image,String str)
         {
@@ -170,7 +183,7 @@ namespace WindowsFormsApplication3
             }
 
             string kmeanstr = str + "_kmeans";
-            Cv2.ImShow(kmeanstr, this.kmeans);
+            //Cv2.ImShow(kmeanstr, this.kmeans);
             //imshow(kmean, image.kmeans);
             //imshow("kmean_img", image.kmeans);
 
@@ -210,7 +223,7 @@ namespace WindowsFormsApplication3
             this.kmeans.CopyTo(this.grabcut, result);
 
             string grabcutstr = str + "_grabCut";
-            Cv2.ImShow(grabcutstr, this.grabcut);
+            //Cv2.ImShow(grabcutstr, this.grabcut);
             //Cv2.ImShow("re", result);
             //imshow(grabCuts, image.grabcut);
 
@@ -224,7 +237,7 @@ namespace WindowsFormsApplication3
             Cv2.Threshold(this.gray1, this.gray2, 1, 255, ThresholdTypes.Binary);
             string graystr = str + "_gray";
             //Cv2.ImShow("gray", this.gray1);
-            Cv2.ImShow(graystr, this.gray2);
+            //Cv2.ImShow(graystr, this.gray2);
         }
 
         public void Erode_Dilate(Image image, String str)
@@ -247,10 +260,76 @@ namespace WindowsFormsApplication3
             Cv2.Erode(this.dilate, this.erode, element);
 
             string dilatestr = str + "_dilate";
-            Cv2.ImShow(dilatestr, this.dilate);
+           // Cv2.ImShow(dilatestr, this.dilate);
 
             string erodestr = str + "_erode";
-            Cv2.ImShow(erodestr, this.erode);
+           // Cv2.ImShow(erodestr, this.erode);
         }
+
+        public void Contour(Image image, String str)
+        {
+            RNG rng = new RNG(12345);
+            HierarchyIndex[] hierarchy = new HierarchyIndex[1];
+            OpenCvSharp.Point point = new OpenCvSharp.Point(0, 0);
+
+            this.contours = new OpenCvSharp.Point[1][];
+            Cv2.FindContours(this.gray2, out this.contours, out hierarchy, RetrievalModes.Tree, ContourApproximationModes.ApproxSimple, point);
+
+            int max_area = 0;
+            int ci = 0;
+            for (int i = 0; i < this.contours.Count(); i++)
+            {
+                OpenCvSharp.Point[] cnt = new OpenCvSharp.Point[1];
+                cnt = this.contours[i];
+                int area = (int)Cv2.ContourArea(cnt);
+
+                if (area > max_area)
+                {
+                    max_area = area;
+                    ci = i;
+                }
+            }
+
+            this.contours2 = new Mat();
+            this.contours2 = Mat.Zeros(this.gray2.Rows, this.gray2.Cols, MatType.CV_8UC3);
+            Scalar color = new Scalar(rng.Uniform(0, 255), rng.Uniform(0, 255), rng.Uniform(0, 255));
+            Cv2.DrawContours(this.contours2, this.contours, ci, color, 1);
+
+            string contourstr = str + "_contour";
+                
+            // Cv2.ImShow(contourstr, this.contours2);
+            //for (int j = 0; j < 100; j++)
+            //{
+            //    string deleteBgresult = contourstr + "_result"+j+".jpg";
+            //    Cv2.ImWrite(deleteBgresult, this.contours2);
+            //}
+                     
+        }
+
+        public void DeleteBackground(Image image, String str)
+        {
+            for (int j = 0; j < image.gray2.Rows; j++)
+            {
+                for (int i = 0; i < image.gray2.Cols; i++)
+                {
+                    if (image.gray2.At<char>(j, i) == 0)
+                    {
+                        Vec3b pix = this.img.At<Vec3b>(j, i);
+                        pix[0] = 0;
+                        pix[1] = 0;
+                        pix[2] = 0;
+                        this.img.Set<Vec3b>(j, i, pix);
+                    }
+                }
+            }
+
+
+            string deleteBgstr = str + "_DeleteBackground";
+            // Cv2.ImShow(deleteBgstr, image.img);
+            //string deleteBgresult = deleteBg + "_result.jpg";
+            //imwrite(deleteBgresult, image.img);
+        }
+
+
     }
 }
