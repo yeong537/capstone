@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,6 +15,12 @@ using OpenCvSharp.Blob;
 
 using System.Runtime.InteropServices;
 
+using Lucene.Net;
+using Lucene.Net.Documents;
+using Lucene.Net.Store;
+using Lucene.Net.Analysis.CJK;
+
+
 
 
 namespace WindowsFormsApplication3
@@ -23,14 +30,14 @@ namespace WindowsFormsApplication3
     {
         public Mat src_base;
         public Mat src_test;
-        contourclass[] DB = new contourclass[100];
-        contourclass org;
+        ContourClass[] DB = new ContourClass[100];
+        ContourClass org;
 
         public Form1()
         {
             InitializeComponent();
 
-            contourclass start = new contourclass();
+            ContourClass start = new ContourClass();
             start.img = Cv2.ImRead("start.jpg");
             for (int i = 0; i < 2; i++)
             {
@@ -40,7 +47,7 @@ namespace WindowsFormsApplication3
 
             for (int i = 0; i < 10; i++)
             {
-                DB[i] = new contourclass();
+                DB[i] = new ContourClass();
                 DB[i].DB(DB[i], i);
             }
         }
@@ -66,7 +73,7 @@ namespace WindowsFormsApplication3
                 pictureBox1.Image = pic[0];
             }
 
-            org = new contourclass();
+            org = new ContourClass();
             org.img = OpenCvSharp.Extensions.BitmapConverter.ToMat(pic[0]);
             
             org.Kmeans(org, "org");
@@ -95,7 +102,19 @@ namespace WindowsFormsApplication3
 
         private void button1_Click(object sender, EventArgs e)
         {
+            string txt = textBox1.Text;
+            
+            LuceneClass test = new LuceneClass();
+            string[] str = new string[6];
+            str = test.test(txt);
+            string result = "result\n";
+            for(int i = 0; i < 10; i++)
+            {
+                if (str[i] == null) break;
+                result += str[i];
+            }
 
+            MessageBox.Show(result);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -111,6 +130,39 @@ namespace WindowsFormsApplication3
             correl = hc.get_correl(src_base, src_test);
 
             MessageBox.Show(correl.ToString());
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            int x = 44032;
+
+            string str = null;
+
+            for (int i = 1; i <= 21; i++)
+            {
+                for (int j = 1; j <= 28; j++)
+                {
+                    str = str+"{0} : {1}"+ x.ToString()+ (char)x+"\t";
+                    x++;
+                }
+                str = str + "\n";
+            }
+
+            MessageBox.Show(str);
+
+            int y = x;
+            str = null;
+            for (int i = 1; i <= 21; i++)
+            {
+                for (int j = 1; j <= 28; j++)
+                {
+                    str = str + "{0} : {1}" + y.ToString() + (char)y + "\t";
+                    y++;
+                }
+                str = str + "\n";
+            }
+            MessageBox.Show(str);
+
         }
     }
 

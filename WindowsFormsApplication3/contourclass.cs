@@ -7,13 +7,13 @@ using OpenCvSharp;
 
 namespace WindowsFormsApplication3
 {
-    class contourclass
+    class ContourClass
     {
         public Mat img, kmeans, grabcut, gray1, gray2, dilate, erode, contour1, contour2;
         public OpenCvSharp.Point[][] contours;
         public double ans;
 
-        public void DB(contourclass image, int i)
+        public void DB(ContourClass image, int i)
         {
             string str = "org_contour" + i.ToString() + ".jpg";
             image.img = Cv2.ImRead(str);
@@ -28,7 +28,7 @@ namespace WindowsFormsApplication3
             //image.DeleteBackground(image, str);
         }
 
-        public void Kmeans(contourclass image, String str)
+        public void Kmeans(ContourClass image, String str)
         {
             int clusterCnt = 1, maxCnt = 1;
             Mat dst, labels, centers;
@@ -73,7 +73,7 @@ namespace WindowsFormsApplication3
             string kmeanstr = str + "_kmeans";
             //Cv2.ImShow(kmeanstr, image.kmeans);
         }
-        public void GrabCut(contourclass image, String str)
+        public void GrabCut(ContourClass image, String str)
         {
             //OpenCvSharp.Point point = new OpenCvSharp.Point(0, 0);
             //OpenCvSharp.Size size = new OpenCvSharp.Size(this.kmeans.Cols-1, this.kmeans.Rows-1);
@@ -113,7 +113,7 @@ namespace WindowsFormsApplication3
             //imshow(grabCuts, image.grabcut);
 
         }
-        public void Gray_Binary(contourclass image, String str)
+        public void Gray_Binary(ContourClass image, String str)
         {
             image.gray1 = new Mat();
             image.gray2 = new Mat();
@@ -122,7 +122,7 @@ namespace WindowsFormsApplication3
             string graystr = str + "_gray";
         }
 
-        public void Gray_Binary2(contourclass image, String str)
+        public void Gray_Binary2(ContourClass image, String str)
         {
             image.gray1 = new Mat();
             image.gray2 = new Mat();
@@ -130,7 +130,7 @@ namespace WindowsFormsApplication3
             Cv2.Threshold(image.gray1, image.gray2, 1, 255, ThresholdTypes.Binary);
             string graystr = str + "_gray";
         }
-        public void Erode_Dilate2(contourclass image, String str)
+        public void Erode_Dilate2(ContourClass image, String str)
         {
             Mat element = new Mat();
             OpenCvSharp.Point point = new OpenCvSharp.Point(0, 0);
@@ -160,7 +160,7 @@ namespace WindowsFormsApplication3
             //Cv2.ImShow(erodestr, image.dilate);
         }
 
-        public void Erode_Dilate(contourclass image, String str)
+        public void Erode_Dilate(ContourClass image, String str)
         {
             Mat element = new Mat();
             OpenCvSharp.Point point = new OpenCvSharp.Point(0, 0);
@@ -189,7 +189,7 @@ namespace WindowsFormsApplication3
             //Cv2.ImShow(erodestr, image.erode);
         }
 
-        public void Contour(contourclass image, String str)
+        public void Contour(ContourClass image, String str)
         {
             RNG rng = new RNG(12345);
             HierarchyIndex[] hierarchy = new HierarchyIndex[1];
@@ -276,7 +276,7 @@ namespace WindowsFormsApplication3
             //}
         }
         */
-        public string[] Similarity(contourclass image, contourclass[] DB)
+        public string[] Similarity(ContourClass image, ContourClass[] DB)
         {
             //double min = 1000;
             //int best = 0;
@@ -336,7 +336,7 @@ namespace WindowsFormsApplication3
             return filename;
         }
 
-        public void DeleteBackground(contourclass image, String str)
+        public void DeleteBackground(ContourClass image, String str)
         {
             for (int j = 0; j < image.gray2.Rows; j++)
             {

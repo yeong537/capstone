@@ -53,3 +53,7 @@ D:\github\capstone\WindowsFormsApplication3\obj\Debug\WindowsFormsApplication3.c
 D:\github\capstone\WindowsFormsApplication3\obj\Debug\WindowsFormsApplication3.Form1.resources
 D:\github\capstone\WindowsFormsApplication3\obj\Debug\WindowsFormsApplication3.Properties.Resources.resources
 D:\github\capstone\WindowsFormsApplication3\obj\Debug\WindowsFormsApplication3.csproj.GenerateResource.Cache
+D:\capstone\WindowsFormsApplication3\bin\Debug\Lucene.Net.dll
+D:\capstone\WindowsFormsApplication3\bin\Debug\Lucene.Net.pdb
+D:\capstone\WindowsFormsApplication3\bin\Debug\Lucene.Net.Contrib.Analyzers.dll
+D:\capstone\WindowsFormsApplication3\bin\Debug\Lucene.Net.Contrib.Analyzers.pdb
