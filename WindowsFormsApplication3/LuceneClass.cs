@@ -106,7 +106,7 @@ namespace WindowsFormsApplication3
             {
 
                 var documentFromSearch = indexSearch.Doc(hit.Doc);
-                str[i] = i.ToString()+(". ")+documentFromSearch.Get("가수") + " " + documentFromSearch.Get("제목") + "\n";
+                str[i] = i.ToString() + (". ") + documentFromSearch.Get("가수") + " " + documentFromSearch.Get("제목") + "\n" + documentFromSearch.Get("가사");
                 i++;
             }
             
