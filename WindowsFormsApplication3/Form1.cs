@@ -31,14 +31,30 @@ namespace WindowsFormsApplication3
         public Mat src_base;
         public Mat src_test;
         ContourClass[] DB = new ContourClass[100];
+        histogramclass hc = new histogramclass();
+        OpenFileDialog openFile = new OpenFileDialog();
         ContourClass org;
+
+        public Bitmap[] pic = new Bitmap[5];
+        public string name;
 
         public List<string> list1 = new List<string>();
         public List<string> list2 = new List<string>();
+        public string[,] str = new string[2, 10];
+
+        public int type = 0;
+        
+        LuceneClass test = new LuceneClass();
 
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+
 
             ContourClass start = new ContourClass();
             start.img = Cv2.ImRead("start.jpg");
@@ -53,17 +69,29 @@ namespace WindowsFormsApplication3
                 DB[i] = new ContourClass();
                 DB[i].DB(DB[i], i);
             }
-        }
 
+
+
+
+            list1.AddRange(new List<string> { "a", "ab", "abc", "abcd", "가", "가나", "가나다", "가나다라" });
+
+            for(int i = 0; i < list1.Count; i++)
+            {
+                list2.Add(Seperate(list1[i]));
+            }
+            
+            comboBox1.Visible = false;
+            groupBox1.Visible = false;
+            artist.WordWrap = true;
+            title.WordWrap = true;
+            content.WordWrap = true;
+        }
 
         //private System.Drawing.Bitmap pic1;
         //private string name1;
 
-        public void button2_Click(object sender, EventArgs e)
+        public void ImgBtn_Click(object sender, EventArgs e)
         {
-            Bitmap[] pic = new Bitmap[5];
-            string name;
-            OpenFileDialog openFile = new OpenFileDialog();
             openFile.DefaultExt = "jpg";
             openFile.Filter = "Graphics interchange Format (*.jpg)|*.jpg|All files(*.*)|*.*";
             openFile.ShowDialog();
@@ -103,26 +131,54 @@ namespace WindowsFormsApplication3
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void TxtBtn_Click(object sender, EventArgs e)
         {
             string txt = textBox1.Text;
             
-            LuceneClass test = new LuceneClass();
-            string[] str = new string[6];
-            str = test.test(txt);
-            string result = "result\n";
+            List<ListBoxClass> ListBox = new List<ListBoxClass>();
+
+            if (AllRadio.Checked)
+            {
+                type = 1;
+            }
+            else if (TitleRadio.Checked)
+            {
+                type = 2;
+            }
+            else if (ArtistRadio.Checked)
+            {
+                type = 3;
+            }
+            else if (ContentRadio.Checked)
+            {
+                type = 4;
+            }
+            else
+            {
+                if (MessageBox.Show("Please Check Search Type", "", MessageBoxButtons.OK) == DialogResult.OK) // 경고창 출력
+                {
+                    return;
+                }
+            }
+
+            str = test.SearchTxT(txt, type);
+            
             for(int i = 0; i < 10; i++)
             {
-                if (str[i] == null) break;
-
-                //MessageBox.Show(str[i]);
-                //result += str[i];
-                str[i] = str[i].Replace("txt",)
+                if (str[i,1] == null) break;
+                ListBox.Add(new ListBoxClass { ListBox_Text = str[i, 1], ListBox_Value = str[i, 0] });
             }
+
+            listBox1.DataSource = ListBox;
+            listBox1.DisplayMember = "ListBox_Text";
+            listBox1.ValueMember = "ListBox_Value";
+
+            listBox1.Visible = true;
+            groupBox1.Visible = false;
 
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void jyBtn_Click(object sender, EventArgs e)
         {
             double correl;
 
@@ -137,8 +193,29 @@ namespace WindowsFormsApplication3
             MessageBox.Show(correl.ToString());
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void hyBtn_Click(object sender, EventArgs e)
         {
+            string[,] test = new string[5, 2];
+
+            for(int i = 0; i < 5; i++)
+            {
+                for(int j = 0; j < 2; j++)
+                {
+                    test[i, j] = i + ", " + j + "\n";
+                }
+            }
+
+            for(int i = 0; i < 5; i++)
+            {
+                for(int j = 0; j < 2; j++)
+                {
+                    MessageBox.Show(test[i, j]);
+                }
+            }
+
+
+
+            /*
             int x = 44032;
 
             string str = null;
@@ -167,6 +244,7 @@ namespace WindowsFormsApplication3
                 str = str + "\n";
             }
             MessageBox.Show(str);
+            */
 
         }
 
@@ -195,18 +273,6 @@ namespace WindowsFormsApplication3
 
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            list1.AddRange(new List<string> { "a", "ab", "abc", "abcd", "가", "가나", "가나다", "가나다라" });
-
-            for(int i = 0; i < list1.Count; i++)
-            {
-                list2.Add(Seperate(list1[i]));
-            }
-            
-            comboBox1.Visible = false;
-
-        }
 
         public string Seperate(string data)
         {
@@ -263,12 +329,66 @@ namespace WindowsFormsApplication3
             if (comboBox1.SelectedItem.ToString()=="")
             {
                 textBox1.Text = comboBox1.SelectedItem.ToString();
-
             }
 
         }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            textBox1.Text = comboBox1.SelectedItem.ToString();
+        }
+
+        private void listBox1_DoubleClick(object sender, EventArgs e)
+        {
+            groupBox1.Visible = true;
+            BackBtn.Visible = true;
+
+            string[,] searchId = test.SearchId(listBox1.SelectedValue.ToString(),type);
+            artist.Text = searchId[0,1];
+            title.Text = searchId[0,2];
+            content.Text = searchId[0,3];
+
+            Font font1 = new Font("굴림", 10, FontStyle.Bold);
+            Font font2 = new Font("굴림", 10, FontStyle.Regular);
+
+            if (searchId[0,0] == "2")
+            {
+                title.Font = font1;
+                artist.Font = font2;
+                content.Font = font2;
+            }
+            else if (searchId[0, 0] == "3")
+            {
+                title.Font = font2;
+                artist.Font = font1;
+                content.Font = font2;
+            }
+            else if (searchId[0, 0] == "4")
+            {
+                title.Font = font2;
+                artist.Font = font2;
+                content.Font = font1;
+            }
+        }
+
+        private void BackBtn_Click(object sender, EventArgs e)
+        {
+            BackBtn.Visible = false;
+            groupBox1.Visible = false;
+        }
     }
 
+    public class ListBoxClass
+    {
+        public string ListBox_Value { get; set; }
+        public string ListBox_Text { get; set; }
+
+        public ListBoxClass()
+        {
+            ListBox_Value = string.Empty;
+            ListBox_Text = string.Empty;
+        }
+    }
     /*
     [Serializable]
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
