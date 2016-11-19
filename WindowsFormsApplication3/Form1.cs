@@ -30,12 +30,17 @@ namespace WindowsFormsApplication3
     {
         public Mat src_base;
         public Mat src_test;
+        public Mat DB_base;
+        public Mat DB_test;
         ContourClass[] DB = new ContourClass[100];
         histogramclass hc = new histogramclass();
         OpenFileDialog openFile = new OpenFileDialog();
         ContourClass org;
+        ContourClass nobackimg = new ContourClass();
+        ContourClass[] DBnobackimg = new ContourClass[100];
 
         public Bitmap[] pic = new Bitmap[5];
+        public Mat[] Mplantimg = new Mat[100];
         public string name;
 
         public List<string> list1 = new List<string>();
@@ -376,6 +381,102 @@ namespace WindowsFormsApplication3
             BackBtn.Visible = false;
             groupBox1.Visible = false;
         }
+
+        private void Order_Click(object sender, EventArgs e)
+        {
+            Mat[] DBimg = new Mat[100];
+            double Maxcorrel;
+            double[] DBcorrel = new double[100];
+            double intersect;
+            int imgcnt = 10;
+            double beforeresult = 0;
+            double result = 0;
+
+            if (pic[0] == null)
+            {
+                openFile.DefaultExt = "jpg";
+                openFile.Filter = "Graphics interchange Format (*.jpg)|*.jpg|All files(*.*)|*.*";
+                openFile.ShowDialog();
+
+                if (openFile.FileName.Length > 0)
+                {
+                    pic[0] = new Bitmap(openFile.FileName);
+                    name = openFile.FileName;
+
+                    pictureBox1.Image = pic[0];
+                }
+            }
+            
+            //오리지날 사진저장 및 사진띄우기
+            pic[0] = new Bitmap(openFile.FileName);
+            name = openFile.FileName;
+
+            pictureBox1.Image = pic[0];
+
+            //오리지날 그림 배경 없애기
+            nobackimg = new ContourClass();
+            nobackimg.img = OpenCvSharp.Extensions.BitmapConverter.ToMat(pic[0]);
+
+            nobackimg.Kmeans(nobackimg, "org");
+            nobackimg.GrabCut(nobackimg, "org");
+            nobackimg.Gray_Binary(nobackimg, "org");
+            nobackimg.Erode_Dilate(nobackimg, "org");
+            nobackimg.Contour(nobackimg, "org");
+            nobackimg.DeleteBackground(nobackimg, "org");
+
+            //오리지널과 오리지널을 비교해 비교최대값 얻어내기
+            src_base = nobackimg.img;
+            Maxcorrel = hc.get_correl(src_base, src_base);
+            //int i = 1;
+            //다른 디비들 비교값 알아오기
+            for(int i = 0; i < imgcnt; i++)
+            {
+                try
+                {
+                    //경로
+                    //string str = @"C:\Users\jy\Desktop\capstone\WindowsFormsApplication3\bin\Debug\";
+                    DB_base = Cv2.ImRead("mushroom"+i.ToString()+".jpg");
+                    //Bitmap bt = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(DB_base);
+                    //pictureBox4.Image = bt;
+                    DBnobackimg[i] = new ContourClass(); //////// 배열 초기화해조야지대@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+                /*
+                 for (int i = 0; i < 10; i++)
+                   {
+                     DBnobackimg[i] = new ContourClass();
+
+                    }
+                 이러케 해쥬셈!   
+                 */
+
+
+                    DBnobackimg[i].img = DB_base;
+                    DBnobackimg[i].Kmeans(DBnobackimg[i], "org");
+                    DBnobackimg[i].GrabCut(DBnobackimg[i], "org");
+                    DBnobackimg[i].Gray_Binary(DBnobackimg[i], "org");
+                    DBnobackimg[i].Erode_Dilate(DBnobackimg[i], "org");
+                    DBnobackimg[i].Contour(DBnobackimg[i], "org");
+                    DBnobackimg[i].WDeleteBackground(DBnobackimg[i], "mushroom", i);
+                    
+                
+                    Mplantimg[i] = Cv2.ImRead("mushroom_DeleteBackground" + i.ToString()+".jpg");
+                    //Mplantimg[i] = Cv2.ImRead("mushroom" + i.ToString() + "_DeleteBackground.jpg"); 파일 이름 오타났대여 ~.~
+
+
+                    src_test = Mplantimg[i];
+                    DBcorrel[i] = hc.get_correl(src_base, src_test);
+
+                }
+                catch(System.NullReferenceException)
+                {
+                    MessageBox.Show("OrderButton test 중 파일을 읽지 못하였습니다.");
+                }
+                //(beforeresult < result) ? true : false;
+            }
+            MessageBox.Show(Maxcorrel.ToString(), "MaxCorrel");
+       //     MessageBox.Show(result.ToString(),"DBcorrel");
+        }
+        
     }
 
     public class ListBoxClass

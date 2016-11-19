@@ -49,6 +49,7 @@
             this.title = new System.Windows.Forms.RichTextBox();
             this.artist = new System.Windows.Forms.RichTextBox();
             this.BackBtn = new System.Windows.Forms.Button();
+            this.Order = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -263,11 +264,22 @@
             this.BackBtn.Visible = false;
             this.BackBtn.Click += new System.EventHandler(this.BackBtn_Click);
             // 
+            // Order
+            // 
+            this.Order.Location = new System.Drawing.Point(519, 13);
+            this.Order.Name = "Order";
+            this.Order.Size = new System.Drawing.Size(75, 23);
+            this.Order.TabIndex = 18;
+            this.Order.Text = "Order";
+            this.Order.UseVisualStyleBackColor = true;
+            this.Order.Click += new System.EventHandler(this.Order_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(814, 480);
+            this.Controls.Add(this.Order);
             this.Controls.Add(this.BackBtn);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.listBox1);
@@ -323,6 +335,7 @@
         private System.Windows.Forms.RichTextBox title;
         private System.Windows.Forms.RichTextBox artist;
         private System.Windows.Forms.Button BackBtn;
+        private System.Windows.Forms.Button Order;
     }
 }
 

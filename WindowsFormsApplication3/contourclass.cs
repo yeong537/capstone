@@ -27,6 +27,20 @@ namespace WindowsFormsApplication3
             //image.Contour2(image, str);
             //image.DeleteBackground(image, str);
         }
+        public void DBnoback(ContourClass image, int i)
+        {
+            string str = "mushroom" + i.ToString() + ".jpg";
+            image.img = Cv2.ImRead(str);
+            //image.Kmeans(image, str);
+            //image.GrabCut2(image, str);
+
+            //image.Gray_Binary(image, str);
+            image.Gray_Binary2(image, str);
+            image.Erode_Dilate2(image, str);
+            image.Contour(image, str);
+            //image.Contour2(image, str);
+            image.DeleteBackground(image, str);
+        }
 
         public void Kmeans(ContourClass image, String str)
         {
@@ -352,12 +366,31 @@ namespace WindowsFormsApplication3
                     }
                 }
             }
-
-
             string deleteBgstr = str + "_DeleteBackground";
             //Cv2.ImShow(deleteBgstr, image.img);
-            //string deleteBgresult = deleteBg + "_result.jpg";
-            //imwrite(deleteBgresult, image.img);
+            //string deleteBgresult = deleteBgstr + ".jpg";
+            //Cv2.ImWrite(deleteBgresult, image.img);
+        }
+        public void WDeleteBackground(ContourClass image, String str,int k)
+        {
+            for (int j = 0; j < image.gray2.Rows; j++)
+            {
+                for (int i = 0; i < image.gray2.Cols; i++)
+                {
+                    if (image.gray2.At<char>(j, i) == 0)
+                    {
+                        Vec3b pix = image.img.At<Vec3b>(j, i);
+                        pix[0] = 0;
+                        pix[1] = 0;
+                        pix[2] = 0;
+                        image.img.Set<Vec3b>(j, i, pix);
+                    }
+                }
+            }
+            string deleteBgstr = str + "_DeleteBackground";
+            //Cv2.ImShow(deleteBgstr, image.img);
+            string deleteBgresult = deleteBgstr + k.ToString() +".jpg";
+            Cv2.ImWrite(deleteBgresult, image.img);
         }
     }
 }
