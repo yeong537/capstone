@@ -58,9 +58,6 @@ namespace WindowsFormsApplication3
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
-
-
             ContourClass start = new ContourClass();
             start.img = Cv2.ImRead("start.jpg");
             for (int i = 0; i < 2; i++)
@@ -74,10 +71,7 @@ namespace WindowsFormsApplication3
                 DB[i] = new ContourClass();
                 DB[i].DB(DB[i], i);
             }
-
-
-
-
+            
             list1.AddRange(new List<string> { "a", "ab", "abc", "abcd", "가", "가나", "가나다", "가나다라" });
 
             for(int i = 0; i < list1.Count; i++)
@@ -389,23 +383,32 @@ namespace WindowsFormsApplication3
             double[] DBcorrel = new double[100];
             double intersect;
             int imgcnt = 10;
-            double beforeresult = 0;
+            double gap = 0;
+            double comparetest = 1000000;
             double result = 0;
-
-            if (pic[0] == null)
+           
+                if (pic[0] == null)
             {
                 openFile.DefaultExt = "jpg";
                 openFile.Filter = "Graphics interchange Format (*.jpg)|*.jpg|All files(*.*)|*.*";
                 openFile.ShowDialog();
-
-                if (openFile.FileName.Length > 0)
-                {
-                    pic[0] = new Bitmap(openFile.FileName);
-                    name = openFile.FileName;
-
-                    pictureBox1.Image = pic[0];
+                
+                    if (openFile.FileName.Length > 0)
+                    {
+                        pic[0] = new Bitmap(openFile.FileName);
+                        name = openFile.FileName;
+                        MessageBox.Show(name);
+                        
+                        //경로 바꿔보기 바꿔치기하는거
+                        if(name == @"D:\github\capstone\WindowsFormsApplication3\bin\Debug\mushroom1.jpg")
+                        {
+                        openFile.FileName = @"D:\github\capstone\WindowsFormsApplication3\bin\Debug\mushroom_DeleteBackground1_.jpg";
+                        MessageBox.Show(openFile.FileName);
+                        }
+                        pictureBox1.Image = pic[0];
+                    }
                 }
-            }
+            
             
             //오리지날 사진저장 및 사진띄우기
             pic[0] = new Bitmap(openFile.FileName);
@@ -417,6 +420,9 @@ namespace WindowsFormsApplication3
             nobackimg = new ContourClass();
             nobackimg.img = OpenCvSharp.Extensions.BitmapConverter.ToMat(pic[0]);
 
+            //DB_base = Cv2.ImRead("mushroom1.jpg");
+            //nobackimg.img = DB_base;
+
             nobackimg.Kmeans(nobackimg, "org");
             nobackimg.GrabCut(nobackimg, "org");
             nobackimg.Gray_Binary(nobackimg, "org");
@@ -427,29 +433,26 @@ namespace WindowsFormsApplication3
             //오리지널과 오리지널을 비교해 비교최대값 얻어내기
             src_base = nobackimg.img;
             Maxcorrel = hc.get_correl(src_base, src_base);
-            //int i = 1;
-            //다른 디비들 비교값 알아오기
-            for(int i = 0; i < imgcnt; i++)
-            {
-                try
+            int i = 1;
+            Bitmap bitmaptest;
+            //다른 디비들 비교값 생성하기
+            //for(int i = 0; i < imgcnt; i++)
+            //{ 
+            try
                 {
-                    //경로
-                    //string str = @"C:\Users\jy\Desktop\capstone\WindowsFormsApplication3\bin\Debug\";
+                    //DB_base <= 
+                    //DB_base = Cv2.ImRead("mushroom" + i.ToString() + ".jpg");
                     DB_base = Cv2.ImRead("mushroom"+i.ToString()+".jpg");
-                    //Bitmap bt = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(DB_base);
-                    //pictureBox4.Image = bt;
-                    DBnobackimg[i] = new ContourClass(); //////// 배열 초기화해조야지대@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
+                    //bitmaptest = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(DB_base);
+                    //DB_base = OpenCvSharp.Extensions.BitmapConverter.ToMat(bitmaptest);
+                DBnobackimg[i] = new ContourClass(); //배열 초기화해조야지대
                 /*
                  for (int i = 0; i < 10; i++)
                    {
                      DBnobackimg[i] = new ContourClass();
-
                     }
                  이러케 해쥬셈!   
                  */
-
-
                     DBnobackimg[i].img = DB_base;
                     DBnobackimg[i].Kmeans(DBnobackimg[i], "org");
                     DBnobackimg[i].GrabCut(DBnobackimg[i], "org");
@@ -458,23 +461,38 @@ namespace WindowsFormsApplication3
                     DBnobackimg[i].Contour(DBnobackimg[i], "org");
                     DBnobackimg[i].WDeleteBackground(DBnobackimg[i], "mushroom", i);
                     
-                
-                    Mplantimg[i] = Cv2.ImRead("mushroom_DeleteBackground" + i.ToString()+".jpg");
-                    //Mplantimg[i] = Cv2.ImRead("mushroom" + i.ToString() + "_DeleteBackground.jpg"); 파일 이름 오타났대여 ~.~
-
+                    
+                    Mplantimg[i] = Cv2.ImRead("mushroom_DeleteBackground" + i.ToString()+"_.jpg");
+                    //Mplantimg[i] = Cv2.ImRead("mushroom_DeleteBackground" + i.ToString() + ".jpg");
 
                     src_test = Mplantimg[i];
                     DBcorrel[i] = hc.get_correl(src_base, src_test);
-
+                    gap = Math.Abs( Maxcorrel - DBcorrel[i]);
+                    if (gap < comparetest)
+                    {
+                        comparetest = gap;
+                        result = gap;
+                    }
                 }
                 catch(System.NullReferenceException)
                 {
                     MessageBox.Show("OrderButton test 중 파일을 읽지 못하였습니다.");
                 }
-                //(beforeresult < result) ? true : false;
-            }
-            MessageBox.Show(Maxcorrel.ToString(), "MaxCorrel");
-       //     MessageBox.Show(result.ToString(),"DBcorrel");
+                
+            //}
+            MessageBox.Show(result.ToString(), "result");
+            //MessageBox.Show(DBcorrel[0].ToString(), "DB0");
+            MessageBox.Show(DBcorrel[1].ToString(), "DB1");
+            //MessageBox.Show(DBcorrel[2].ToString(), "DB2");
+            //MessageBox.Show(DBcorrel[3].ToString(), "DB3");
+            //MessageBox.Show(DBcorrel[4].ToString(), "DB4");
+            //MessageBox.Show(DBcorrel[5].ToString(), "DB5");
+            //MessageBox.Show(DBcorrel[6].ToString(), "DB6");
+            //MessageBox.Show(DBcorrel[7].ToString(), "DB7");
+            //MessageBox.Show(DBcorrel[8].ToString(), "DB8");
+            //MessageBox.Show(DBcorrel[9].ToString(), "DB9");
+            MessageBox.Show(Maxcorrel.ToString(), "Maxcorrel");
+
         }
         
     }
