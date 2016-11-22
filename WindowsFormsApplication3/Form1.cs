@@ -28,6 +28,7 @@ namespace WindowsFormsApplication3
 
     public partial class Form1 : Form
     {
+        public bool check;
         public Mat src_base;
         public Mat src_test;
         public Mat DB_base;
@@ -39,7 +40,9 @@ namespace WindowsFormsApplication3
         ContourClass nobackimg = new ContourClass();
         ContourClass[] DBnobackimg = new ContourClass[100];
 
+        public Bitmap[] pictest = new Bitmap[5];
         public Bitmap[] pic = new Bitmap[5];
+        public Bitmap[] picnoback = new Bitmap[5];
         public Mat[] Mplantimg = new Mat[100];
         public string name;
 
@@ -48,7 +51,7 @@ namespace WindowsFormsApplication3
         public string[,] str = new string[2, 10];
 
         public int type = 0;
-        
+
         LuceneClass test = new LuceneClass();
 
         public Form1()
@@ -71,14 +74,14 @@ namespace WindowsFormsApplication3
                 DB[i] = new ContourClass();
                 DB[i].DB(DB[i], i);
             }
-            
+
             list1.AddRange(new List<string> { "a", "ab", "abc", "abcd", "가", "가나", "가나다", "가나다라" });
 
-            for(int i = 0; i < list1.Count; i++)
+            for (int i = 0; i < list1.Count; i++)
             {
                 list2.Add(Seperate(list1[i]));
             }
-            
+
             comboBox1.Visible = false;
             groupBox1.Visible = false;
             artist.WordWrap = true;
@@ -102,38 +105,13 @@ namespace WindowsFormsApplication3
 
                 pictureBox1.Image = pic[0];
             }
-
-            org = new ContourClass();
-            org.img = OpenCvSharp.Extensions.BitmapConverter.ToMat(pic[0]);
-            
-            org.Kmeans(org, "org");
-            org.GrabCut(org, "org");
-            org.Gray_Binary(org, "org");
-            org.Erode_Dilate(org, "org");
-            org.Contour(org, "org");
-            org.DeleteBackground(org, "org");
-
-
-            string[] order = org.Similarity(org, DB);
-            Mat[] num = new Mat[4];
-
-            for (int i = 0; i < 4; i++)
-            {
-                num[i] = Cv2.ImRead(order[i]);
-                pic[i+1] = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(num[i]);
-            }
-            
-            pictureBox2.Image = pic[1];
-            pictureBox3.Image = pic[2];
-            pictureBox4.Image = pic[3];
-            pictureBox5.Image = pic[4];
-
+            contour();
         }
 
         private void TxtBtn_Click(object sender, EventArgs e)
         {
             string txt = textBox1.Text;
-            
+
             List<ListBoxClass> ListBox = new List<ListBoxClass>();
 
             if (AllRadio.Checked)
@@ -161,10 +139,10 @@ namespace WindowsFormsApplication3
             }
 
             str = test.SearchTxT(txt, type);
-            
-            for(int i = 0; i < 10; i++)
+
+            for (int i = 0; i < 10; i++)
             {
-                if (str[i,1] == null) break;
+                if (str[i, 1] == null) break;
                 ListBox.Add(new ListBoxClass { ListBox_Text = str[i, 1], ListBox_Value = str[i, 0] });
             }
 
@@ -196,17 +174,17 @@ namespace WindowsFormsApplication3
         {
             string[,] test = new string[5, 2];
 
-            for(int i = 0; i < 5; i++)
+            for (int i = 0; i < 5; i++)
             {
-                for(int j = 0; j < 2; j++)
+                for (int j = 0; j < 2; j++)
                 {
                     test[i, j] = i + ", " + j + "\n";
                 }
             }
 
-            for(int i = 0; i < 5; i++)
+            for (int i = 0; i < 5; i++)
             {
-                for(int j = 0; j < 2; j++)
+                for (int j = 0; j < 2; j++)
                 {
                     MessageBox.Show(test[i, j]);
                 }
@@ -261,7 +239,7 @@ namespace WindowsFormsApplication3
                 }
             }
 
-            if(textBox1.Text == "")
+            if (textBox1.Text == "")
             {
                 comboBox1.DroppedDown = false;
             }
@@ -325,7 +303,7 @@ namespace WindowsFormsApplication3
         private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
         {
             textBox1.Focus();
-            if (comboBox1.SelectedItem.ToString()=="")
+            if (comboBox1.SelectedItem.ToString() == "")
             {
                 textBox1.Text = comboBox1.SelectedItem.ToString();
             }
@@ -342,15 +320,15 @@ namespace WindowsFormsApplication3
             groupBox1.Visible = true;
             BackBtn.Visible = true;
 
-            string[,] searchId = test.SearchId(listBox1.SelectedValue.ToString(),type);
-            artist.Text = searchId[0,1];
-            title.Text = searchId[0,2];
-            content.Text = searchId[0,3];
+            string[,] searchId = test.SearchId(listBox1.SelectedValue.ToString(), type);
+            artist.Text = searchId[0, 1];
+            title.Text = searchId[0, 2];
+            content.Text = searchId[0, 3];
 
             Font font1 = new Font("굴림", 10, FontStyle.Bold);
             Font font2 = new Font("굴림", 10, FontStyle.Regular);
 
-            if (searchId[0,0] == "2")
+            if (searchId[0, 0] == "2")
             {
                 title.Font = font1;
                 artist.Font = font2;
@@ -378,38 +356,91 @@ namespace WindowsFormsApplication3
 
         private void Order_Click(object sender, EventArgs e)
         {
+            order();
+        }
+
+        public class ListBoxClass
+        {
+            public string ListBox_Value { get; set; }
+            public string ListBox_Text { get; set; }
+
+            public ListBoxClass()
+            {
+                ListBox_Value = string.Empty;
+                ListBox_Text = string.Empty;
+            }
+        }
+        /*
+        [Serializable]
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        public struct Image
+        {
+            [MarshalAs(UnmanagedType.I4)]
+            public Mat img, gray1, gray2, kmeans, grabcut, dilate, erod, contours2, contours3;
+        }
+
+        [Serializable]
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        public struct Test
+        {
+            [MarshalAs(UnmanagedType.I4,SizeConst =sizeof(int))]
+            public int a;
+        }
+
+        class WrapDemoLib
+        {
+
+            [DllImport("CpLib.dll")]
+            extern public static int Add(int a, int b);
+            public static int WrapAdd(int a, int b)
+            {
+                return Add(a, b);
+            }
+
+            [DllImport("CpLib.dll")]
+            extern public static void test2();
+
+            [DllImport("CpLib.dll")]
+            extern public static int test1(ref Test test);
+
+            [DllImport("CpLib.dll")]
+            extern public static void Kmeans(ref Image image, string str);
+            // public static void WrapKmeans(Image image, string str)
+            // {
+            //     Kmeans(image, str);
+            // }
+        }
+        */
+        public void order()
+        {
+            Mat[] num = new Mat[4];
             Mat[] DBimg = new Mat[100];
             double Maxcorrel;
             double[] DBcorrel = new double[100];
-            double intersect;
             int imgcnt = 10;
-            double gap = 0;
-            double comparetest = 1000000;
-            double result = 0;
-           
-                if (pic[0] == null)
+            int[] gap = new int[imgcnt];
+            double[] gapgroup = new double[5];
+            double correl = 0;
+            double intersect = 0;
+            double orgresult = 0;
+            int[] imgnumcheck = new int[imgcnt];
+            int[] imgnumcheckarray = new int[5];
+            if (pic[0] == null)
             {
                 openFile.DefaultExt = "jpg";
                 openFile.Filter = "Graphics interchange Format (*.jpg)|*.jpg|All files(*.*)|*.*";
                 openFile.ShowDialog();
-                
-                    if (openFile.FileName.Length > 0)
-                    {
-                        pic[0] = new Bitmap(openFile.FileName);
-                        name = openFile.FileName;
-                        MessageBox.Show(name);
-                        
-                        //경로 바꿔보기 바꿔치기하는거
-                        if(name == @"D:\github\capstone\WindowsFormsApplication3\bin\Debug\mushroom1.jpg")
-                        {
-                        openFile.FileName = @"D:\github\capstone\WindowsFormsApplication3\bin\Debug\mushroom_DeleteBackground1_.jpg";
-                        MessageBox.Show(openFile.FileName);
-                        }
-                        pictureBox1.Image = pic[0];
-                    }
+
+                if (openFile.FileName.Length > 0)
+                {
+                    pic[0] = new Bitmap(openFile.FileName);
+                    name = openFile.FileName;
+
+                    pictureBox1.Image = pic[0];
                 }
-            
-            
+            }
+
+
             //오리지날 사진저장 및 사진띄우기
             pic[0] = new Bitmap(openFile.FileName);
             name = openFile.FileName;
@@ -432,27 +463,20 @@ namespace WindowsFormsApplication3
 
             //오리지널과 오리지널을 비교해 비교최대값 얻어내기
             src_base = nobackimg.img;
-            Maxcorrel = hc.get_correl(src_base, src_base);
-            int i = 1;
-            Bitmap bitmaptest;
+            correl = hc.get_correl(src_base, src_base);
+            intersect = hc.get_intersect(src_base, src_base);
+
+            orgresult = (correl + intersect) / 2;
+            int temp;
+            int temp2;
             //다른 디비들 비교값 생성하기
-            //for(int i = 0; i < imgcnt; i++)
-            //{ 
-            try
+            for (int i = 0; i < imgcnt; i++)
+            {
+                try
                 {
-                    //DB_base <= 
-                    //DB_base = Cv2.ImRead("mushroom" + i.ToString() + ".jpg");
-                    DB_base = Cv2.ImRead("mushroom"+i.ToString()+".jpg");
-                    //bitmaptest = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(DB_base);
-                    //DB_base = OpenCvSharp.Extensions.BitmapConverter.ToMat(bitmaptest);
-                DBnobackimg[i] = new ContourClass(); //배열 초기화해조야지대
-                /*
-                 for (int i = 0; i < 10; i++)
-                   {
-                     DBnobackimg[i] = new ContourClass();
-                    }
-                 이러케 해쥬셈!   
-                 */
+                    pictest[0] = new Bitmap("mushroom" + i.ToString() + ".jpg");
+                    DB_base = OpenCvSharp.Extensions.BitmapConverter.ToMat(pictest[0]);
+                    DBnobackimg[i] = new ContourClass(); //배열 초기화해조야지대                                                              
                     DBnobackimg[i].img = DB_base;
                     DBnobackimg[i].Kmeans(DBnobackimg[i], "org");
                     DBnobackimg[i].GrabCut(DBnobackimg[i], "org");
@@ -460,96 +484,91 @@ namespace WindowsFormsApplication3
                     DBnobackimg[i].Erode_Dilate(DBnobackimg[i], "org");
                     DBnobackimg[i].Contour(DBnobackimg[i], "org");
                     DBnobackimg[i].WDeleteBackground(DBnobackimg[i], "mushroom", i);
-                    
-                    
-                    Mplantimg[i] = Cv2.ImRead("mushroom_DeleteBackground" + i.ToString()+"_.jpg");
-                    //Mplantimg[i] = Cv2.ImRead("mushroom_DeleteBackground" + i.ToString() + ".jpg");
 
+                    //다이렉트로 하기위해서 쓰는 리드
+                    //Mplantimg[i] = Cv2.ImRead("mushroom_DeleteBackground" + i.ToString()+"_.jpg");
+                    //Mplantimg[i] = Cv2.ImRead("mushroom_DeleteBackground" + i.ToString() + ".jpg");
+                    //배경지우기 처리후 이미지
+                    Mplantimg[i] = DBnobackimg[i].img;
                     src_test = Mplantimg[i];
-                    DBcorrel[i] = hc.get_correl(src_base, src_test);
-                    gap = Math.Abs( Maxcorrel - DBcorrel[i]);
-                    if (gap < comparetest)
-                    {
-                        comparetest = gap;
-                        result = gap;
-                    }
+                    correl = hc.get_correl(src_base, src_test);
+                    intersect = hc.get_intersect(src_base, src_test);
+                    DBcorrel[i] = (correl + intersect) / 2;
+                    gap[i] = (int)Math.Abs(orgresult - DBcorrel[i]);
                 }
-                catch(System.NullReferenceException)
+                catch (System.NullReferenceException)
                 {
                     MessageBox.Show("OrderButton test 중 파일을 읽지 못하였습니다.");
                 }
-                
-            //}
-            MessageBox.Show(result.ToString(), "result");
-            //MessageBox.Show(DBcorrel[0].ToString(), "DB0");
-            MessageBox.Show(DBcorrel[1].ToString(), "DB1");
-            //MessageBox.Show(DBcorrel[2].ToString(), "DB2");
-            //MessageBox.Show(DBcorrel[3].ToString(), "DB3");
-            //MessageBox.Show(DBcorrel[4].ToString(), "DB4");
-            //MessageBox.Show(DBcorrel[5].ToString(), "DB5");
-            //MessageBox.Show(DBcorrel[6].ToString(), "DB6");
-            //MessageBox.Show(DBcorrel[7].ToString(), "DB7");
-            //MessageBox.Show(DBcorrel[8].ToString(), "DB8");
-            //MessageBox.Show(DBcorrel[9].ToString(), "DB9");
-            MessageBox.Show(Maxcorrel.ToString(), "Maxcorrel");
+            }
+            for (int i = 0; i < imgcnt; i++)
+            {
+                imgnumcheck[i] = i;
+            }
+            for (int k = 0; k < imgcnt; k++)
+            {
+                check = false;
+                for (int j = 0; j < imgcnt - 1; j++)
+                {
+                    if (gap[j] > gap[j + 1])
+                    {
+                        check = true;
+                        temp = gap[j];
+                        gap[j] = gap[j + 1];
+                        gap[j + 1] = temp;
 
+                        temp2 = imgnumcheck[j];
+                        imgnumcheck[j] = imgnumcheck[j + 1];
+                        imgnumcheck[j + 1] = temp2;
+                    }
+                }
+                if (check == false)
+                {
+                    break;
+                }
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                num[i] = Cv2.ImRead("mushroom" + imgnumcheck[i + 1] + ".jpg");
+                pic[i + 1] = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(num[i]);
+            }
+
+            pictureBox2.Image = pic[1];
+            pictureBox3.Image = pic[2];
+            pictureBox4.Image = pic[3];
+            pictureBox5.Image = pic[4];
+            MessageBox.Show(orgresult.ToString(), "Maxcorrel");
         }
         
-    }
-
-    public class ListBoxClass
-    {
-        public string ListBox_Value { get; set; }
-        public string ListBox_Text { get; set; }
-
-        public ListBoxClass()
+        public void contour()
         {
-            ListBox_Value = string.Empty;
-            ListBox_Text = string.Empty;
+
+            org = new ContourClass();
+            org.img = OpenCvSharp.Extensions.BitmapConverter.ToMat(pic[0]);
+
+            org.Kmeans(org, "org");
+            org.GrabCut(org, "org");
+            org.Gray_Binary(org, "org");
+            org.Erode_Dilate(org, "org");
+            org.Contour(org, "org");
+            org.DeleteBackground(org, "org");
+
+
+            string[] order = org.Similarity(org, DB);
+            Mat[] num = new Mat[4];
+
+            for (int i = 0; i < 4; i++)
+            {
+                num[i] = Cv2.ImRead(order[i]);
+                pic[i + 1] = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(num[i]);
+            }
+
+            pictureBox2.Image = pic[1];
+            pictureBox3.Image = pic[2];
+            pictureBox4.Image = pic[3];
+            pictureBox5.Image = pic[4];
         }
     }
-    /*
-    [Serializable]
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-    public struct Image
-    {
-        [MarshalAs(UnmanagedType.I4)]
-        public Mat img, gray1, gray2, kmeans, grabcut, dilate, erod, contours2, contours3;
-    }
-
-    [Serializable]
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-    public struct Test
-    {
-        [MarshalAs(UnmanagedType.I4,SizeConst =sizeof(int))]
-        public int a;
-    }
-
-    class WrapDemoLib
-    {
-        
-        [DllImport("CpLib.dll")]
-        extern public static int Add(int a, int b);
-        public static int WrapAdd(int a, int b)
-        {
-            return Add(a, b);
-        }
-
-        [DllImport("CpLib.dll")]
-        extern public static void test2();
-
-        [DllImport("CpLib.dll")]
-        extern public static int test1(ref Test test);
-
-        [DllImport("CpLib.dll")]
-        extern public static void Kmeans(ref Image image, string str);
-        // public static void WrapKmeans(Image image, string str)
-        // {
-        //     Kmeans(image, str);
-        // }
-    }
-    */
-
 }
 
     

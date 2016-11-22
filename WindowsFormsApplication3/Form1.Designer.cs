@@ -49,7 +49,10 @@
             this.title = new System.Windows.Forms.RichTextBox();
             this.artist = new System.Windows.Forms.RichTextBox();
             this.BackBtn = new System.Windows.Forms.Button();
-            this.Order = new System.Windows.Forms.Button();
+            this.ImageLoad = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -117,17 +120,17 @@
             // 
             // ImgBtn
             // 
-            this.ImgBtn.Location = new System.Drawing.Point(11, 335);
+            this.ImgBtn.Location = new System.Drawing.Point(11, 332);
             this.ImgBtn.Name = "ImgBtn";
             this.ImgBtn.Size = new System.Drawing.Size(331, 23);
             this.ImgBtn.TabIndex = 3;
-            this.ImgBtn.Text = "image";
+            this.ImgBtn.Text = "Image Load";
             this.ImgBtn.UseVisualStyleBackColor = true;
             this.ImgBtn.Click += new System.EventHandler(this.ImgBtn_Click);
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(12, 364);
+            this.pictureBox2.Location = new System.Drawing.Point(12, 385);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(80, 74);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -136,7 +139,7 @@
             // 
             // pictureBox3
             // 
-            this.pictureBox3.Location = new System.Drawing.Point(98, 364);
+            this.pictureBox3.Location = new System.Drawing.Point(98, 385);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(79, 74);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -145,7 +148,7 @@
             // 
             // pictureBox4
             // 
-            this.pictureBox4.Location = new System.Drawing.Point(183, 364);
+            this.pictureBox4.Location = new System.Drawing.Point(183, 385);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(73, 74);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -154,7 +157,7 @@
             // 
             // pictureBox5
             // 
-            this.pictureBox5.Location = new System.Drawing.Point(263, 365);
+            this.pictureBox5.Location = new System.Drawing.Point(263, 386);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(79, 73);
             this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -222,7 +225,7 @@
             this.groupBox1.Controls.Add(this.artist);
             this.groupBox1.Location = new System.Drawing.Point(357, 73);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(445, 383);
+            this.groupBox1.Size = new System.Drawing.Size(445, 386);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
             // 
@@ -264,22 +267,55 @@
             this.BackBtn.Visible = false;
             this.BackBtn.Click += new System.EventHandler(this.BackBtn_Click);
             // 
-            // Order
+            // ImageLoad
             // 
-            this.Order.Location = new System.Drawing.Point(519, 13);
-            this.Order.Name = "Order";
-            this.Order.Size = new System.Drawing.Size(75, 23);
-            this.Order.TabIndex = 18;
-            this.Order.Text = "Order";
-            this.Order.UseVisualStyleBackColor = true;
-            this.Order.Click += new System.EventHandler(this.Order_Click);
+            this.ImageLoad.Location = new System.Drawing.Point(285, 358);
+            this.ImageLoad.Name = "ImageLoad";
+            this.ImageLoad.Size = new System.Drawing.Size(57, 23);
+            this.ImageLoad.TabIndex = 18;
+            this.ImageLoad.Text = "Search";
+            this.ImageLoad.UseVisualStyleBackColor = true;
+            this.ImageLoad.Click += new System.EventHandler(this.Order_Click);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(12, 363);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(60, 16);
+            this.checkBox1.TabIndex = 19;
+            this.checkBox1.Text = "컨투어";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(72, 363);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(84, 16);
+            this.checkBox2.TabIndex = 20;
+            this.checkBox2.Text = "히스토그램";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(156, 363);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(126, 16);
+            this.checkBox3.TabIndex = 21;
+            this.checkBox3.Text = "컨투어+히스토그램";
+            this.checkBox3.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(814, 480);
-            this.Controls.Add(this.Order);
+            this.ClientSize = new System.Drawing.Size(811, 468);
+            this.Controls.Add(this.checkBox3);
+            this.Controls.Add(this.checkBox2);
+            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.ImageLoad);
             this.Controls.Add(this.BackBtn);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.listBox1);
@@ -335,7 +371,10 @@
         private System.Windows.Forms.RichTextBox title;
         private System.Windows.Forms.RichTextBox artist;
         private System.Windows.Forms.Button BackBtn;
-        private System.Windows.Forms.Button Order;
+        private System.Windows.Forms.Button ImageLoad;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkBox3;
     }
 }
 
