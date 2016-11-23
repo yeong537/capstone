@@ -54,6 +54,12 @@ namespace WindowsFormsApplication3
 
         LuceneClass test = new LuceneClass();
 
+        public double orderresult;
+        public double contourresult;
+        public double OCresult;
+        public int imgcnt = 10;
+        public int[] gapcopy = new int[100];
+
         public Form1()
         {
             InitializeComponent();
@@ -89,9 +95,6 @@ namespace WindowsFormsApplication3
             content.WordWrap = true;
         }
 
-        //private System.Drawing.Bitmap pic1;
-        //private string name1;
-
         public void ImgBtn_Click(object sender, EventArgs e)
         {
             openFile.DefaultExt = "jpg";
@@ -105,7 +108,6 @@ namespace WindowsFormsApplication3
 
                 pictureBox1.Image = pic[0];
             }
-            contour();
         }
 
         private void TxtBtn_Click(object sender, EventArgs e)
@@ -250,7 +252,6 @@ namespace WindowsFormsApplication3
 
         }
 
-
         public string Seperate(string data)
         {
             int a, b, c;
@@ -356,7 +357,38 @@ namespace WindowsFormsApplication3
 
         private void Order_Click(object sender, EventArgs e)
         {
-            order();
+            try
+            {
+                if (checkBox1.Checked == true && checkBox2.Checked == true)
+                {
+                    for (int i = 0; i < imgcnt; i++)
+                    {
+                        OCresult =((double)((gapcopy[i] + 155000) / 465000)+ (org.ansjy[i]))/2;
+                        MessageBox.Show(OCresult.ToString());
+                    }
+                }
+                else if (checkBox1.Checked == true)
+                {
+                    contour();
+                    checkBox1.Checked = false;
+                }
+                else if (checkBox2.Checked == true)
+                {
+                    order();
+                    checkBox2.Checked = false;
+                }
+                
+                else
+                {
+                    MessageBox.Show("체크를 1개 이상은 꼭 해주세요!","Error");
+                }
+            }
+            catch
+            {
+                MessageBox.Show("이미지를 반드시 로드해주세요!","Error");
+                checkBox1.Checked = false;
+                checkBox2.Checked = false;
+            }
         }
 
         public class ListBoxClass
@@ -415,35 +447,18 @@ namespace WindowsFormsApplication3
         {
             Mat[] num = new Mat[4];
             Mat[] DBimg = new Mat[100];
-            double Maxcorrel;
             double[] DBcorrel = new double[100];
-            int imgcnt = 10;
             int[] gap = new int[imgcnt];
             double[] gapgroup = new double[5];
             double correl = 0;
             double intersect = 0;
             double orgresult = 0;
             int[] imgnumcheck = new int[imgcnt];
-            int[] imgnumcheckarray = new int[5];
-            if (pic[0] == null)
-            {
-                openFile.DefaultExt = "jpg";
-                openFile.Filter = "Graphics interchange Format (*.jpg)|*.jpg|All files(*.*)|*.*";
-                openFile.ShowDialog();
-
-                if (openFile.FileName.Length > 0)
-                {
-                    pic[0] = new Bitmap(openFile.FileName);
-                    name = openFile.FileName;
-
-                    pictureBox1.Image = pic[0];
-                }
-            }
-
+            //int[] imgnumcheckarray = new int[5];
 
             //오리지날 사진저장 및 사진띄우기
-            pic[0] = new Bitmap(openFile.FileName);
-            name = openFile.FileName;
+            //pic[0] = new Bitmap(openFile.FileName);
+            //name = openFile.FileName;
 
             pictureBox1.Image = pic[0];
 
@@ -484,7 +499,7 @@ namespace WindowsFormsApplication3
                     DBnobackimg[i].Erode_Dilate(DBnobackimg[i], "org");
                     DBnobackimg[i].Contour(DBnobackimg[i], "org");
                     DBnobackimg[i].WDeleteBackground(DBnobackimg[i], "mushroom", i);
-
+                    
                     //다이렉트로 하기위해서 쓰는 리드
                     //Mplantimg[i] = Cv2.ImRead("mushroom_DeleteBackground" + i.ToString()+"_.jpg");
                     //Mplantimg[i] = Cv2.ImRead("mushroom_DeleteBackground" + i.ToString() + ".jpg");
@@ -495,12 +510,19 @@ namespace WindowsFormsApplication3
                     intersect = hc.get_intersect(src_base, src_test);
                     DBcorrel[i] = (correl + intersect) / 2;
                     gap[i] = (int)Math.Abs(orgresult - DBcorrel[i]);
+
                 }
                 catch (System.NullReferenceException)
                 {
                     MessageBox.Show("OrderButton test 중 파일을 읽지 못하였습니다.");
                 }
             }
+            //위에 체크박스를 위해 정렬되지 않은 갭 담아놓기
+            for(int i = 0; i<imgcnt; i++)
+            {
+                gapcopy[i] = gap[i];
+            }
+
             for (int i = 0; i < imgcnt; i++)
             {
                 imgnumcheck[i] = i;
@@ -537,7 +559,6 @@ namespace WindowsFormsApplication3
             pictureBox3.Image = pic[2];
             pictureBox4.Image = pic[3];
             pictureBox5.Image = pic[4];
-            MessageBox.Show(orgresult.ToString(), "Maxcorrel");
         }
         
         public void contour()

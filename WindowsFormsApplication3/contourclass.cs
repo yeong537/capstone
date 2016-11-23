@@ -12,6 +12,7 @@ namespace WindowsFormsApplication3
         public Mat img, kmeans, grabcut, gray1, gray2, dilate, erode, contour1, contour2;
         public OpenCvSharp.Point[][] contours;
         public double ans;
+        public double[] ansjy = new double[10];
 
         public void DB(ContourClass image, int i)
         {
@@ -301,6 +302,7 @@ namespace WindowsFormsApplication3
                 ans[i] = new double();
                 ans[i] = Cv2.MatchShapes(image.contour2, DB[i].contour2, ShapeMatchModes.I1, 0);
                 DB[i].ans = ans[i];
+                ansjy[i] = ans[i];
             }
 
             /*
