@@ -30,7 +30,6 @@
         {
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.TxtBtn = new System.Windows.Forms.Button();
-            this.jyBtn = new System.Windows.Forms.Button();
             this.hyBtn = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -78,19 +77,9 @@
             this.TxtBtn.UseVisualStyleBackColor = true;
             this.TxtBtn.Click += new System.EventHandler(this.TxtBtn_Click);
             // 
-            // jyBtn
-            // 
-            this.jyBtn.Location = new System.Drawing.Point(357, 13);
-            this.jyBtn.Name = "jyBtn";
-            this.jyBtn.Size = new System.Drawing.Size(75, 23);
-            this.jyBtn.TabIndex = 8;
-            this.jyBtn.Text = "jytest";
-            this.jyBtn.UseVisualStyleBackColor = true;
-            this.jyBtn.Click += new System.EventHandler(this.jyBtn_Click);
-            // 
             // hyBtn
             // 
-            this.hyBtn.Location = new System.Drawing.Point(438, 13);
+            this.hyBtn.Location = new System.Drawing.Point(357, 15);
             this.hyBtn.Name = "hyBtn";
             this.hyBtn.Size = new System.Drawing.Size(75, 23);
             this.hyBtn.TabIndex = 9;
@@ -279,7 +268,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(26, 363);
+            this.checkBox1.Location = new System.Drawing.Point(13, 363);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(60, 16);
             this.checkBox1.TabIndex = 19;
@@ -289,7 +278,7 @@
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(87, 363);
+            this.checkBox2.Location = new System.Drawing.Point(79, 363);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(84, 16);
             this.checkBox2.TabIndex = 20;
@@ -313,7 +302,6 @@
             this.Controls.Add(this.AllRadio);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.hyBtn);
-            this.Controls.Add(this.jyBtn);
             this.Controls.Add(this.pictureBox5);
             this.Controls.Add(this.pictureBox4);
             this.Controls.Add(this.pictureBox3);
@@ -340,7 +328,6 @@
 
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button TxtBtn;
-        private System.Windows.Forms.Button jyBtn;
         private System.Windows.Forms.Button hyBtn;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.PictureBox pictureBox1;

@@ -63,6 +63,8 @@ namespace WindowsFormsApplication3
         public Form1()
         {
             InitializeComponent();
+
+          
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -93,6 +95,7 @@ namespace WindowsFormsApplication3
             artist.WordWrap = true;
             title.WordWrap = true;
             content.WordWrap = true;
+
         }
 
         public void ImgBtn_Click(object sender, EventArgs e)
@@ -358,25 +361,68 @@ namespace WindowsFormsApplication3
 
         private void Order_Click(object sender, EventArgs e)
         {
+            double[] gap = new double[imgcnt];
+            double temp, temp2;
+            double[] imgnumcheck = new double[imgcnt];
+
+            contour();
+            order();
             try
             {
                 if (checkBox1.Checked == true && checkBox2.Checked == true)
                 {
                     for (int i = 0; i < imgcnt; i++)
                     {
-
+                        
                         OCresult =((double)((gapcopy[i] + 155000) / 465000)+ (org.ansjy[i]))/2;
-                        MessageBox.Show(OCresult.ToString());
+                        gap[i] = OCresult;
+
                     }
+
+                    for (int k = 0; k < imgcnt; k++)
+                    {
+                        check = false;
+                        for (int j = 0; j < imgcnt - 1; j++)
+                        {
+                            if (gap[j] > gap[j + 1])
+                            {
+                                check = true;
+                                temp = gap[j];
+                                gap[j] = gap[j + 1];
+                                gap[j + 1] = temp;
+
+                                temp2 = imgnumcheck[j];
+                                imgnumcheck[j] = imgnumcheck[j + 1];
+                                imgnumcheck[j + 1] = temp2; 
+                            }
+                        }
+
+                        if (check == false)
+                        {
+                            break;
+                        }
+                    }
+                    pictureBox2.Image = pic[1];
+                    pictureBox3.Image = pic[2];
+                    pictureBox4.Image = pic[3];
+                    pictureBox5.Image = pic[4];
                 }
                 else if (checkBox1.Checked == true)
                 {
                     contour();
+                    pictureBox2.Image = pic[1];
+                    pictureBox3.Image = pic[2];
+                    pictureBox4.Image = pic[3];
+                    pictureBox5.Image = pic[4];
                     checkBox1.Checked = false;
                 }
                 else if (checkBox2.Checked == true)
                 {
                     order();
+                    pictureBox2.Image = pic[1];
+                    pictureBox3.Image = pic[2];
+                    pictureBox4.Image = pic[3];
+                    pictureBox5.Image = pic[4];
                     checkBox2.Checked = false;
                 }
                 else
@@ -559,10 +605,7 @@ namespace WindowsFormsApplication3
                 pic[i + 1] = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(num[i]);
             }
 
-            pictureBox2.Image = pic[1];
-            pictureBox3.Image = pic[2];
-            pictureBox4.Image = pic[3];
-            pictureBox5.Image = pic[4];
+           
         }
         
         public void contour()
@@ -588,10 +631,7 @@ namespace WindowsFormsApplication3
                 pic[i + 1] = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(num[i]);
             }
 
-            pictureBox2.Image = pic[1];
-            pictureBox3.Image = pic[2];
-            pictureBox4.Image = pic[3];
-            pictureBox5.Image = pic[4];
+            
         }
     }
 }
