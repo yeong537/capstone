@@ -107,6 +107,7 @@ namespace WindowsFormsApplication3
                 name = openFile.FileName;
 
                 pictureBox1.Image = pic[0];
+                MessageBox.Show(openFile.FileName);
             }
         }
 
@@ -363,6 +364,7 @@ namespace WindowsFormsApplication3
                 {
                     for (int i = 0; i < imgcnt; i++)
                     {
+
                         OCresult =((double)((gapcopy[i] + 155000) / 465000)+ (org.ansjy[i]))/2;
                         MessageBox.Show(OCresult.ToString());
                     }
@@ -377,7 +379,6 @@ namespace WindowsFormsApplication3
                     order();
                     checkBox2.Checked = false;
                 }
-                
                 else
                 {
                     MessageBox.Show("체크를 1개 이상은 꼭 해주세요!","Error");
@@ -489,6 +490,7 @@ namespace WindowsFormsApplication3
             {
                 try
                 {
+                    /*
                     pictest[0] = new Bitmap("mushroom" + i.ToString() + ".jpg");
                     DB_base = OpenCvSharp.Extensions.BitmapConverter.ToMat(pictest[0]);
                     DBnobackimg[i] = new ContourClass(); //배열 초기화해조야지대                                                              
@@ -499,12 +501,14 @@ namespace WindowsFormsApplication3
                     DBnobackimg[i].Erode_Dilate(DBnobackimg[i], "org");
                     DBnobackimg[i].Contour(DBnobackimg[i], "org");
                     DBnobackimg[i].WDeleteBackground(DBnobackimg[i], "mushroom", i);
-                    
+                    */
+
                     //다이렉트로 하기위해서 쓰는 리드
-                    //Mplantimg[i] = Cv2.ImRead("mushroom_DeleteBackground" + i.ToString()+"_.jpg");
+                    Bitmap dum = new Bitmap("mushroom_DeleteBackground" + i.ToString() + "_.jpg");
+                    Mplantimg[i] = OpenCvSharp.Extensions.BitmapConverter.ToMat(dum);
                     //Mplantimg[i] = Cv2.ImRead("mushroom_DeleteBackground" + i.ToString() + ".jpg");
-                    //배경지우기 처리후 이미지
-                    Mplantimg[i] = DBnobackimg[i].img;
+                    //배경지우기 처리후 이미지(다이렉트가 아닐때)
+                    //Mplantimg[i] = DBnobackimg[i].img;
                     src_test = Mplantimg[i];
                     correl = hc.get_correl(src_base, src_test);
                     intersect = hc.get_intersect(src_base, src_test);
