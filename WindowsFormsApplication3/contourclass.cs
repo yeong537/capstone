@@ -50,16 +50,10 @@ namespace WindowsFormsApplication3
 
             dst = new Mat(image.img.Rows * image.img.Cols, 1, MatType.CV_8UC3);
             image.kmeans = image.img.Reshape(0, image.img.Rows * image.img.Cols);
+
             while (clusterCnt > 0)
             {
                 if (clusterCnt != maxCnt)
-                //{
-                //    this.kmeans = new Mat(this.img.Reshape(0, this.img.Rows * this.img.Cols));
-                //    dst = new Mat(this.img.Rows * this.img.Cols, 1, MatType.CV_8UC3);
-                //dst = Mat(this.kmeans.rows * this.kmeans.Cols, 1, CV_8UC);
-
-                //}
-                //else
                 {
                     image.kmeans.Reshape(0, image.kmeans.Rows * image.kmeans.Cols);
                     dst.Reshape(image.kmeans.Rows * image.kmeans.Cols, 1, MatType.CV_8UC3);
@@ -84,50 +78,23 @@ namespace WindowsFormsApplication3
                 image.kmeans = dst.Reshape(0, image.img.Rows);
                 clusterCnt--;
             }
-
-            string kmeanstr = str + "_kmeans";
-            //Cv2.ImShow(kmeanstr, image.kmeans);
         }
+
         public void GrabCut(ContourClass image, String str)
         {
-            //OpenCvSharp.Point point = new OpenCvSharp.Point(0, 0);
-            //OpenCvSharp.Size size = new OpenCvSharp.Size(this.kmeans.Cols-1, this.kmeans.Rows-1);
-            //Rect rectangle = new Rect(point, size);
-            //Cv2.ImShow("test", image.kmeans);
             Rect rect = new Rect(0, 0, image.kmeans.Cols - 1, image.kmeans.Rows - 1);
 
             Mat result = new Mat(), fgModel = new Mat(), bgModel = new Mat();
-            //fgModel.Zeros(MatType.CV_64FC1, 1, 13 * 5);
-            //bgModel.Zeros(MatType.CV_64FC1, 1, 13 * 5);
 
             Cv2.GrabCut(image.kmeans, result, rect, bgModel, fgModel, 5, GrabCutModes.InitWithRect);
-            //this.kmeans.GrabCut(result, rect, bgModel, fgModel, 5, GrabCutModes.InitWithRect);
-
-
-            //Cv2.ImShow("fg", fgModel);
-            //Cv2.ImShow("res", result);
-            //this.kmeans = OpenCvSharp.GrabCutClasses.PR_FGD;
 
             Cv2.Compare(result, 3, result, CmpTypes.EQ);
-
-            //Cv2.ImShow("res2", result);
-            //Cv2.Subtract(result, 3, result);
-            //Cv2.GrabCut(this.kmeans, result, rectangle, bgModel, fgModel, 5, GrabCutModes.InitWithRect);
-            //Cv2.Compare(result, 3, result, CmpTypes.EQ);
-            //Cv2.Compare(result, result, result, CmpTypes.EQ);
-            //Cv2.Compare(result, result, result, CmpTypes.EQ);
-            //Cv2.Compare(result, , result, CmpTypes.EQ);
-            //MessageBox.Show("complete");
-
+            
             image.grabcut = new Mat();
             image.kmeans.CopyTo(image.grabcut, result);
-
-            string grabcutstr = str + "_grabCut";
-            //Cv2.ImShow(grabcutstr, image.grabcut);
-            //Cv2.ImShow("re", result);
-            //imshow(grabCuts, image.grabcut);
-
         }
+
+
         public void Gray_Binary(ContourClass image, String str)
         {
             image.gray1 = new Mat();
@@ -232,18 +199,12 @@ namespace WindowsFormsApplication3
             image.contour2 = new Mat();
             image.contour1 = Mat.Zeros(image.dilate.Rows, image.dilate.Cols, MatType.CV_8UC3);
             Scalar color = new Scalar(rng.Uniform(0, 255), rng.Uniform(0, 255), rng.Uniform(0, 255));
-
-            //Cv2.DrawContours(image.contour1, image.contours, ci, color, 100);
+            
             Cv2.DrawContours(image.contour1, image.contours, ci, color, 1);
             string contourstr = str + "_contour";
             Cv2.CvtColor(image.contour1, image.contour2, ColorConversionCodes.BGR2GRAY);
-            //Cv2.ImShow(contourstr, image.contour2);
-            //for(int j = 0; j < 100; j++) {
-            //    string deleteBgresult = contourstr + "_result"+j+".jpg";
-            //    Cv2.ImWrite(deleteBgresult, image.contour2);
-            //}
-            //Cv2.ImShow(contourstr, image.contour1);
         }
+
         /*
         public void Contour2(contourclass image, String str)
         {

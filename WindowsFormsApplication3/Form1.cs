@@ -83,18 +83,20 @@ namespace WindowsFormsApplication3
                 DB[i].DB(DB[i], i);
             }
 
-            list1.AddRange(new List<string> { "a", "ab", "abc", "abcd", "가", "가나", "가나다", "가나다라" });
+            list1.AddRange(new List<string> { "a", "ab", "abc", "abcd", "버섯", "나뭇잎", "버선", "버들", "가지", "뿌리", "사과", "배", "복숭아", "자두", "사자", "사용", "배구", "자", "자료", "강아지" });
 
             for (int i = 0; i < list1.Count; i++)
             {
                 list2.Add(Seperate(list1[i]));
+                //MessageBox.Show(list2[i].ToString());
             }
 
             comboBox1.Visible = false;
             groupBox1.Visible = false;
-            artist.WordWrap = true;
-            title.WordWrap = true;
-            content.WordWrap = true;
+            Name1.WordWrap = true;
+            Species.WordWrap = true;
+            symptom.WordWrap = true;
+            Ecology.WordWrap = true;
 
         }
 
@@ -110,7 +112,7 @@ namespace WindowsFormsApplication3
                 name = openFile.FileName;
 
                 pictureBox1.Image = pic[0];
-                MessageBox.Show(openFile.FileName);
+                //MessageBox.Show(openFile.FileName);
             }
         }
 
@@ -120,19 +122,19 @@ namespace WindowsFormsApplication3
 
             List<ListBoxClass> ListBox = new List<ListBoxClass>();
 
-            if (AllRadio.Checked)
+            if (NameRadio.Checked)
             {
                 type = 1;
             }
-            else if (TitleRadio.Checked)
+            else if (SpeciesRadio.Checked)
             {
                 type = 2;
             }
-            else if (ArtistRadio.Checked)
+            else if (SymptomRadio.Checked)
             {
                 type = 3;
             }
-            else if (ContentRadio.Checked)
+            else if (EcologyRadio.Checked)
             {
                 type = 4;
             }
@@ -267,7 +269,8 @@ namespace WindowsFormsApplication3
             // ㅏ ㅐ ㅑ ㅒ ㅓ ㅔ ㅕ ㅖ ㅗ ㅘ ㅙ ㅚ ㅛ ㅜ ㅝ ㅞ ㅟ ㅠ ㅡ ㅢ ㅣ
             int[] JwungSung = { 0x314f, 0x3150, 0x3151, 0x3152, 0x3153, 0x3154, 0x3155, 0x3156, 0x3157, 0x3158, 0x3159, 0x315a, 0x315b, 0x315c, 0x315d, 0x315e, 0x315f, 0x3160, 0x3161, 0x3162, 0x3163 };
             // ㄱ ㄲ ㄳ ㄴ ㄵ ㄶ ㄷ ㄹ ㄺ ㄻ ㄼ ㄽ ㄾ ㄿ ㅀ ㅁ ㅂ ㅄ ㅅ ㅆ ㅇ ㅈ ㅊ ㅋ ㅌ ㅍ ㅎ
-            int[] JongSung = { 0, 0x3131, 0x3132, 0x3133, 0x3134, 0x3135, 0x3136, 0x3137, 0x3139, 0x313a, 0x313b, 0x313c, 0x313d, 0x313e, 0x313f, 0x3140, 0x3141, 0x3142, 0x3144, 0x3145, 0x3146, 0x3147, 0x3148, 0x314a, 0x314b, 0x314c, 0x314d, 0x314e };
+            int[] JongSung = { 0, 0x3131, 0x3132, 0x3133, 0x3134, 0x3135, 0x3136, 0x3137, 0x3139, 0x313a, 0x313b, 0x313c, 0x313d, 0x313e, 0x313f, 0x3140, 0x3141, 0x3142, 0x3144,
+                0x3145, 0x3146, 0x3147, 0x3148, 0x314a, 0x314b, 0x314c, 0x314d, 0x314e };
 
             int x;
 
@@ -283,17 +286,13 @@ namespace WindowsFormsApplication3
                     c = c % (21 * 28);
                     b = c / 28;
                     c = c % 28;
-                    /*
-                    a = (int)a;
-                    b = (int)b;
-                    c = (int)c;
-                    */
+
                     result += string.Format("{0}{1}", (char)ChoSung[a], (char)JwungSung[b]);
-                    //result += string.Format("{0}", (char)ChoSung[a]); //초성만
 
                     // $c가 0이면, 즉 받침이 있을경우
                     if (c != 0)
                         result += string.Format("{0}", (char)JongSung[c]);
+
                 }
                 else
                 {
@@ -301,6 +300,23 @@ namespace WindowsFormsApplication3
 
                 }
             }
+            /*
+            for (cnt = 0; cnt < data.Length; cnt++)
+            {
+                x = (int)data[cnt];
+
+                //한글일 경우만 분리 시행
+                if (x >= 0xAC00 && x <= 0xD7A3)
+                {
+                    c = x - 0xAC00;
+                    a = c / (21 * 28);
+                    c = c % (21 * 28);
+                    b = c / 28;
+                    c = c % 28;
+
+                    result += string.Format("{0}", (char)ChoSung[a]); // 초성만
+                }
+            }*/
             return result;
 
         }
@@ -326,30 +342,43 @@ namespace WindowsFormsApplication3
             BackBtn.Visible = true;
 
             string[,] searchId = test.SearchId(listBox1.SelectedValue.ToString(), type);
-            artist.Text = searchId[0, 1];
-            title.Text = searchId[0, 2];
-            content.Text = searchId[0, 3];
+            Name1.Text = searchId[0, 1];
+            Species.Text = searchId[0, 2];
+            symptom.Text = searchId[0, 3];
+            Ecology.Text = searchId[0, 4];
+            pictureBox1.Image = new Bitmap(searchId[0, 5]);
 
             Font font1 = new Font("굴림", 10, FontStyle.Bold);
             Font font2 = new Font("굴림", 10, FontStyle.Regular);
 
+            if (searchId[0, 0] == "1")
+            {
+                Name1.Font = font1;
+                Species.Font = font2;
+                symptom.Font = font2;
+                Ecology.Font = font2;
+
+            }
             if (searchId[0, 0] == "2")
             {
-                title.Font = font1;
-                artist.Font = font2;
-                content.Font = font2;
+                Name1.Font = font2;
+                Species.Font = font1;
+                symptom.Font = font2;
+                Ecology.Font = font2;
             }
             else if (searchId[0, 0] == "3")
             {
-                title.Font = font2;
-                artist.Font = font1;
-                content.Font = font2;
+                Name1.Font = font2;
+                Species.Font = font2;
+                symptom.Font = font1;
+                Ecology.Font = font2;
             }
             else if (searchId[0, 0] == "4")
             {
-                title.Font = font2;
-                artist.Font = font2;
-                content.Font = font1;
+                Name1.Font = font2;
+                Species.Font = font2;
+                symptom.Font = font2;
+                Ecology.Font = font1;
             }
         }
 

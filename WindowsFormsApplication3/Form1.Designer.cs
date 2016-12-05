@@ -30,7 +30,6 @@
         {
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.TxtBtn = new System.Windows.Forms.Button();
-            this.hyBtn = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.ImgBtn = new System.Windows.Forms.Button();
@@ -38,15 +37,16 @@
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.AllRadio = new System.Windows.Forms.RadioButton();
-            this.TitleRadio = new System.Windows.Forms.RadioButton();
-            this.ArtistRadio = new System.Windows.Forms.RadioButton();
-            this.ContentRadio = new System.Windows.Forms.RadioButton();
+            this.NameRadio = new System.Windows.Forms.RadioButton();
+            this.SpeciesRadio = new System.Windows.Forms.RadioButton();
+            this.SymptomRadio = new System.Windows.Forms.RadioButton();
+            this.EcologyRadio = new System.Windows.Forms.RadioButton();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.content = new System.Windows.Forms.RichTextBox();
-            this.title = new System.Windows.Forms.RichTextBox();
-            this.artist = new System.Windows.Forms.RichTextBox();
+            this.Species = new System.Windows.Forms.RichTextBox();
+            this.Ecology = new System.Windows.Forms.RichTextBox();
+            this.symptom = new System.Windows.Forms.RichTextBox();
+            this.Name1 = new System.Windows.Forms.RichTextBox();
             this.BackBtn = new System.Windows.Forms.Button();
             this.ImageLoad = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -76,16 +76,6 @@
             this.TxtBtn.Text = "text btn";
             this.TxtBtn.UseVisualStyleBackColor = true;
             this.TxtBtn.Click += new System.EventHandler(this.TxtBtn_Click);
-            // 
-            // hyBtn
-            // 
-            this.hyBtn.Location = new System.Drawing.Point(357, 15);
-            this.hyBtn.Name = "hyBtn";
-            this.hyBtn.Size = new System.Drawing.Size(75, 23);
-            this.hyBtn.TabIndex = 9;
-            this.hyBtn.Text = "hytest";
-            this.hyBtn.UseVisualStyleBackColor = true;
-            this.hyBtn.Click += new System.EventHandler(this.hyBtn_Click);
             // 
             // comboBox1
             // 
@@ -152,49 +142,49 @@
             this.pictureBox5.TabIndex = 7;
             this.pictureBox5.TabStop = false;
             // 
-            // AllRadio
+            // NameRadio
             // 
-            this.AllRadio.AutoSize = true;
-            this.AllRadio.Location = new System.Drawing.Point(11, 55);
-            this.AllRadio.Name = "AllRadio";
-            this.AllRadio.Size = new System.Drawing.Size(36, 16);
-            this.AllRadio.TabIndex = 11;
-            this.AllRadio.TabStop = true;
-            this.AllRadio.Text = "all";
-            this.AllRadio.UseVisualStyleBackColor = true;
+            this.NameRadio.AutoSize = true;
+            this.NameRadio.Location = new System.Drawing.Point(11, 55);
+            this.NameRadio.Name = "NameRadio";
+            this.NameRadio.Size = new System.Drawing.Size(57, 16);
+            this.NameRadio.TabIndex = 11;
+            this.NameRadio.TabStop = true;
+            this.NameRadio.Text = "Name";
+            this.NameRadio.UseVisualStyleBackColor = true;
             // 
-            // TitleRadio
+            // SpeciesRadio
             // 
-            this.TitleRadio.AutoSize = true;
-            this.TitleRadio.Location = new System.Drawing.Point(66, 55);
-            this.TitleRadio.Name = "TitleRadio";
-            this.TitleRadio.Size = new System.Drawing.Size(42, 16);
-            this.TitleRadio.TabIndex = 12;
-            this.TitleRadio.TabStop = true;
-            this.TitleRadio.Text = "title";
-            this.TitleRadio.UseVisualStyleBackColor = true;
+            this.SpeciesRadio.AutoSize = true;
+            this.SpeciesRadio.Location = new System.Drawing.Point(74, 55);
+            this.SpeciesRadio.Name = "SpeciesRadio";
+            this.SpeciesRadio.Size = new System.Drawing.Size(69, 16);
+            this.SpeciesRadio.TabIndex = 12;
+            this.SpeciesRadio.TabStop = true;
+            this.SpeciesRadio.Text = "Species";
+            this.SpeciesRadio.UseVisualStyleBackColor = true;
             // 
-            // ArtistRadio
+            // SymptomRadio
             // 
-            this.ArtistRadio.AutoSize = true;
-            this.ArtistRadio.Location = new System.Drawing.Point(127, 55);
-            this.ArtistRadio.Name = "ArtistRadio";
-            this.ArtistRadio.Size = new System.Drawing.Size(50, 16);
-            this.ArtistRadio.TabIndex = 13;
-            this.ArtistRadio.TabStop = true;
-            this.ArtistRadio.Text = "artist";
-            this.ArtistRadio.UseVisualStyleBackColor = true;
+            this.SymptomRadio.AutoSize = true;
+            this.SymptomRadio.Location = new System.Drawing.Point(149, 55);
+            this.SymptomRadio.Name = "SymptomRadio";
+            this.SymptomRadio.Size = new System.Drawing.Size(77, 16);
+            this.SymptomRadio.TabIndex = 13;
+            this.SymptomRadio.TabStop = true;
+            this.SymptomRadio.Text = "Symptom";
+            this.SymptomRadio.UseVisualStyleBackColor = true;
             // 
-            // ContentRadio
+            // EcologyRadio
             // 
-            this.ContentRadio.AutoSize = true;
-            this.ContentRadio.Location = new System.Drawing.Point(190, 55);
-            this.ContentRadio.Name = "ContentRadio";
-            this.ContentRadio.Size = new System.Drawing.Size(64, 16);
-            this.ContentRadio.TabIndex = 14;
-            this.ContentRadio.TabStop = true;
-            this.ContentRadio.Text = "content";
-            this.ContentRadio.UseVisualStyleBackColor = true;
+            this.EcologyRadio.AutoSize = true;
+            this.EcologyRadio.Location = new System.Drawing.Point(232, 55);
+            this.EcologyRadio.Name = "EcologyRadio";
+            this.EcologyRadio.Size = new System.Drawing.Size(69, 16);
+            this.EcologyRadio.TabIndex = 14;
+            this.EcologyRadio.TabStop = true;
+            this.EcologyRadio.Text = "Ecology";
+            this.EcologyRadio.UseVisualStyleBackColor = true;
             // 
             // listBox1
             // 
@@ -208,41 +198,51 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.content);
-            this.groupBox1.Controls.Add(this.title);
-            this.groupBox1.Controls.Add(this.artist);
+            this.groupBox1.Controls.Add(this.Species);
+            this.groupBox1.Controls.Add(this.Ecology);
+            this.groupBox1.Controls.Add(this.symptom);
+            this.groupBox1.Controls.Add(this.Name1);
             this.groupBox1.Location = new System.Drawing.Point(357, 73);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(445, 386);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
             // 
-            // content
+            // Species
             // 
-            this.content.Location = new System.Drawing.Point(6, 80);
-            this.content.Name = "content";
-            this.content.ReadOnly = true;
-            this.content.Size = new System.Drawing.Size(433, 297);
-            this.content.TabIndex = 2;
-            this.content.Text = "";
+            this.Species.Location = new System.Drawing.Point(229, 18);
+            this.Species.Name = "Species";
+            this.Species.ReadOnly = true;
+            this.Species.Size = new System.Drawing.Size(210, 25);
+            this.Species.TabIndex = 3;
+            this.Species.Text = "";
             // 
-            // title
+            // Ecology
             // 
-            this.title.Location = new System.Drawing.Point(6, 49);
-            this.title.Name = "title";
-            this.title.ReadOnly = true;
-            this.title.Size = new System.Drawing.Size(433, 25);
-            this.title.TabIndex = 1;
-            this.title.Text = "";
+            this.Ecology.Location = new System.Drawing.Point(6, 211);
+            this.Ecology.Name = "Ecology";
+            this.Ecology.ReadOnly = true;
+            this.Ecology.Size = new System.Drawing.Size(433, 166);
+            this.Ecology.TabIndex = 2;
+            this.Ecology.Text = "";
             // 
-            // artist
+            // symptom
             // 
-            this.artist.Location = new System.Drawing.Point(6, 18);
-            this.artist.Name = "artist";
-            this.artist.ReadOnly = true;
-            this.artist.Size = new System.Drawing.Size(433, 25);
-            this.artist.TabIndex = 0;
-            this.artist.Text = "";
+            this.symptom.Location = new System.Drawing.Point(6, 49);
+            this.symptom.Name = "symptom";
+            this.symptom.ReadOnly = true;
+            this.symptom.Size = new System.Drawing.Size(433, 156);
+            this.symptom.TabIndex = 1;
+            this.symptom.Text = "";
+            // 
+            // Name1
+            // 
+            this.Name1.Location = new System.Drawing.Point(6, 18);
+            this.Name1.Name = "Name1";
+            this.Name1.ReadOnly = true;
+            this.Name1.Size = new System.Drawing.Size(210, 25);
+            this.Name1.TabIndex = 0;
+            this.Name1.Text = "";
             // 
             // BackBtn
             // 
@@ -296,12 +296,11 @@
             this.Controls.Add(this.BackBtn);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.listBox1);
-            this.Controls.Add(this.ContentRadio);
-            this.Controls.Add(this.ArtistRadio);
-            this.Controls.Add(this.TitleRadio);
-            this.Controls.Add(this.AllRadio);
+            this.Controls.Add(this.EcologyRadio);
+            this.Controls.Add(this.SymptomRadio);
+            this.Controls.Add(this.SpeciesRadio);
+            this.Controls.Add(this.NameRadio);
             this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.hyBtn);
             this.Controls.Add(this.pictureBox5);
             this.Controls.Add(this.pictureBox4);
             this.Controls.Add(this.pictureBox3);
@@ -328,7 +327,6 @@
 
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button TxtBtn;
-        private System.Windows.Forms.Button hyBtn;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button ImgBtn;
@@ -336,19 +334,20 @@
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.PictureBox pictureBox5;
-        private System.Windows.Forms.RadioButton AllRadio;
-        private System.Windows.Forms.RadioButton TitleRadio;
-        private System.Windows.Forms.RadioButton ArtistRadio;
-        private System.Windows.Forms.RadioButton ContentRadio;
+        private System.Windows.Forms.RadioButton NameRadio;
+        private System.Windows.Forms.RadioButton SpeciesRadio;
+        private System.Windows.Forms.RadioButton SymptomRadio;
+        private System.Windows.Forms.RadioButton EcologyRadio;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RichTextBox content;
-        private System.Windows.Forms.RichTextBox title;
-        private System.Windows.Forms.RichTextBox artist;
+        private System.Windows.Forms.RichTextBox Ecology;
+        private System.Windows.Forms.RichTextBox symptom;
+        private System.Windows.Forms.RichTextBox Name1;
         private System.Windows.Forms.Button BackBtn;
         private System.Windows.Forms.Button ImageLoad;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.RichTextBox Species;
     }
 }
 
