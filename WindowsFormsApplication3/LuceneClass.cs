@@ -176,6 +176,7 @@ namespace WindowsFormsApplication3
 
                 str[i, 0] = documentFromSearch.Get("Id");
                 str[i, 1] = documentFromSearch.Get("name") + " - " + documentFromSearch.Get("species");
+                //Console.WriteLine(str[i, 1]);
                 i++;
             }
 
@@ -184,7 +185,7 @@ namespace WindowsFormsApplication3
 
         public string[,] SearchId(string id,int type)
         {
-            Console.WriteLine(id);
+            //Console.WriteLine(id);
 
 
             Lucene.Net.Index.IndexReader indexReader = Lucene.Net.Index.IndexReader.Open(directory, true);

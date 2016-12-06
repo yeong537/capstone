@@ -41,7 +41,7 @@ namespace WindowsFormsApplication3
         ContourClass[] DBnobackimg = new ContourClass[100];
 
         public Bitmap[] pictest = new Bitmap[5];
-        public Bitmap[] pic = new Bitmap[5];
+        public Bitmap[] pic = new Bitmap[7];
         public Bitmap[] picnoback = new Bitmap[5];
         public Mat[] Mplantimg = new Mat[100];
         public string name;
@@ -125,18 +125,22 @@ namespace WindowsFormsApplication3
             if (NameRadio.Checked)
             {
                 type = 1;
+                Console.WriteLine("radio: name");
             }
             else if (SpeciesRadio.Checked)
             {
                 type = 2;
+                Console.WriteLine("radio: species");
             }
             else if (SymptomRadio.Checked)
             {
                 type = 3;
+                Console.WriteLine("radio: symptom");
             }
             else if (EcologyRadio.Checked)
             {
                 type = 4;
+                Console.WriteLine("radio: ecology");
             }
             else
             {
@@ -235,25 +239,34 @@ namespace WindowsFormsApplication3
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            comboBox1.Text = textBox1.Text;
+            comboBox1.SelectedValue = textBox1.Text;
             comboBox1.Items.Clear();
+            Console.WriteLine("combo : " + comboBox1.SelectedValue);
+            Console.WriteLine("text : " + textBox1.Text);
 
-            for (int i = 0; i < list2.Count; i++)
-            {
-                if (list2[i].ToString().IndexOf(Seperate(textBox1.Text)) >= 0)
+            if (Seperate(textBox1.Text) != "") {
+                for (int i = 0; i < list2.Count; i++)
                 {
-                    comboBox1.Items.Add(list1[i].ToString());
+                    if (list2[i].ToString().IndexOf(Seperate(textBox1.Text)) >= 0)
+                    {
+                        comboBox1.Items.Add(list1[i].ToString());
 
+                    }
                 }
-            }
 
-            if (textBox1.Text == "")
-            {
-                comboBox1.DroppedDown = false;
-            }
-            else
-            {
-                comboBox1.DroppedDown = true;
+
+                if (string.IsNullOrEmpty(textBox1.Text))
+                {
+                    comboBox1.DroppedDown = false;
+                }
+                else if (comboBox1.Items.Count==0)
+                {
+                    comboBox1.Items.Add(textBox1.Text);
+                }
+                else
+                {
+                    comboBox1.DroppedDown = true;
+                }
             }
 
         }
@@ -324,29 +337,34 @@ namespace WindowsFormsApplication3
         private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
         {
             textBox1.Focus();
-            if (comboBox1.SelectedItem.ToString() == "")
-            {
-                textBox1.Text = comboBox1.SelectedItem.ToString();
-            }
 
+            string selectedItem = comboBox1.SelectedItem == null ? string.Empty : comboBox1.SelectedItem.ToString();
+            if (!string.IsNullOrEmpty(selectedItem))
+            if (comboBox1.SelectedItem==null)
+            {
+                textBox1.Text = string.Empty;
+            }
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            textBox1.Text = comboBox1.SelectedItem.ToString();
+            textBox1.Text = comboBox1.SelectedItem == null ? string.Empty : comboBox1.SelectedItem.ToString();
+            //Console.WriteLine("combo : " + comboBox1.Text);
         }
 
         private void listBox1_DoubleClick(object sender, EventArgs e)
         {
             groupBox1.Visible = true;
             BackBtn.Visible = true;
+            listBox1.Visible = false;
+            pictureBox8.Visible= true;
 
             string[,] searchId = test.SearchId(listBox1.SelectedValue.ToString(), type);
             Name1.Text = searchId[0, 1];
             Species.Text = searchId[0, 2];
             symptom.Text = searchId[0, 3];
             Ecology.Text = searchId[0, 4];
-            pictureBox1.Image = new Bitmap(searchId[0, 5]);
+            pictureBox8.Image = new Bitmap(searchId[0, 5]);
 
             Font font1 = new Font("굴림", 10, FontStyle.Bold);
             Font font2 = new Font("굴림", 10, FontStyle.Regular);
@@ -386,6 +404,8 @@ namespace WindowsFormsApplication3
         {
             BackBtn.Visible = false;
             groupBox1.Visible = false;
+            listBox1.Visible = true;
+            pictureBox8.Visible = false;
         }
 
         private void Order_Click(object sender, EventArgs e)
@@ -435,6 +455,10 @@ namespace WindowsFormsApplication3
                     pictureBox3.Image = pic[2];
                     pictureBox4.Image = pic[3];
                     pictureBox5.Image = pic[4];
+                    pictureBox6.Image = pic[5];
+                    pictureBox7.Image = pic[6];
+                    checkBox1.Checked = false;
+                    checkBox2.Checked = false;
                 }
                 else if (checkBox1.Checked == true)
                 {
@@ -443,6 +467,8 @@ namespace WindowsFormsApplication3
                     pictureBox3.Image = pic[2];
                     pictureBox4.Image = pic[3];
                     pictureBox5.Image = pic[4];
+                    pictureBox6.Image = pic[5];
+                    pictureBox7.Image = pic[6];
                     checkBox1.Checked = false;
                 }
                 else if (checkBox2.Checked == true)
@@ -452,6 +478,8 @@ namespace WindowsFormsApplication3
                     pictureBox3.Image = pic[2];
                     pictureBox4.Image = pic[3];
                     pictureBox5.Image = pic[4];
+                    pictureBox6.Image = pic[5];
+                    pictureBox7.Image = pic[6];
                     checkBox2.Checked = false;
                 }
                 else
@@ -521,7 +549,7 @@ namespace WindowsFormsApplication3
         */
         public void order()
         {
-            Mat[] num = new Mat[4];
+            Mat[] num = new Mat[6];
             Mat[] DBimg = new Mat[100];
             double[] DBcorrel = new double[100];
             int[] gap = new int[imgcnt];
@@ -628,7 +656,7 @@ namespace WindowsFormsApplication3
                     break;
                 }
             }
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 6; i++)
             {
                 num[i] = Cv2.ImRead("mushroom" + imgnumcheck[i + 1] + ".jpg");
                 pic[i + 1] = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(num[i]);
@@ -652,15 +680,21 @@ namespace WindowsFormsApplication3
 
 
             string[] order = org.Similarity(org, DB);
-            Mat[] num = new Mat[4];
+            Mat[] num = new Mat[6];
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 6; i++)
             {
                 num[i] = Cv2.ImRead(order[i]);
                 pic[i + 1] = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(num[i]);
             }
 
             
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            try { }
+            catch(Exception ex) { MessageBox.Show(ex.Message); }
         }
     }
 }

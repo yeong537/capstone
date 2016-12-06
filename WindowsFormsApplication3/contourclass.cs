@@ -257,7 +257,7 @@ namespace WindowsFormsApplication3
             //double min = 1000;
             //int best = 0;
             double[] ans = new double[10];
-            int[] order = new int[4];
+            int[] order = new int[6];
             for (int i = 0; i < 10; i++)
             {
                 ans[i] = new double();
@@ -291,7 +291,7 @@ namespace WindowsFormsApplication3
             }
 
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 6; i++)
             {
                 for (int j = 0; j < 10; j++)
                 {
@@ -304,8 +304,8 @@ namespace WindowsFormsApplication3
             }
 
 
-            string[] filename = new string[4];
-            for (int i = 0; i < 4; i++)
+            string[] filename = new string[6];
+            for (int i = 0; i < 6; i++)
             {
                 filename[i] = "mushroom" + order[i].ToString() + ".jpg";
             }
