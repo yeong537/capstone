@@ -676,7 +676,7 @@ namespace WindowsFormsApplication3
             org.Gray_Binary(org, "org");
             org.Erode_Dilate(org, "org");
             org.Contour(org, "org");
-            org.DeleteBackground(org, "org");
+            //org.DeleteBackground(org, "org");
 
 
             string[] order = org.Similarity(org, DB);
